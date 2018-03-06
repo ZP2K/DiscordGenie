@@ -1,3 +1,6 @@
+### Status
+[![Build Status](https://travis-ci.org/complexitydev/DiscordGenesis.svg?branch=master)](https://travis-ci.org/complexitydev/DiscordGenesis)
+
 # DiscordGenesis
 
 A discord bot written in python using discord.py
