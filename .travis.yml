@@ -8,6 +8,6 @@ install:
   - pip install -U discord.py
 
 script:
-  - pytest bot.py
+  - pytest
 
 
