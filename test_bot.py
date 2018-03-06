@@ -30,3 +30,4 @@ def test_api_status():
             print('Failed to load extension {}\n{}'.format(extension, exc))
 
     client.run('NDIwMzcyNTU5MzkwMDQ4MjU2.DX-96g.kU-RtfEHRa-Mt8IcxXUifIkGDss')
+    quit()
