@@ -1,7 +1,8 @@
 import re
-import LamdaFunctions
 
 from discord.ext import commands
+
+import LambdaFunctions
 
 
 class Commands:
@@ -13,5 +14,4 @@ class Commands:
         m = re.search('.winrate (\w+)', ctx.message.content)
         position = m.group(1)
         await self.client.say("Fetching winrate for position: {}".format(position))
-        LamdaFunctions.request({"dotabuff":position})
-
+        LambdaFunctions.request({"dotabuff": position})
