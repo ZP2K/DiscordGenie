@@ -1,4 +1,5 @@
 import re
+import urllib.request
 
 from discord.ext import commands
 
@@ -19,19 +20,27 @@ class Commands:
         favorites = []
         for member in members:
             # should be stored in config
-            if member.name.startswith("Vice") or member.name.startswith("heyo") or member.name.startswith("ben"):
+            if member.name.startswith("Vice") \
+                    or member.name.startswith("heyo") \
+                    or member.name.startswith("ben") \
+                    or member.name.startswith("major"):
                 favorites.append(member)
         return favorites
 
     @commands.command(pass_context=True)
-    async def assemble(self):
+    async def assemble(self, ctx):
         members = self.get_favorite_members()
+        if ctx.message.author not in members:
+            return
         await self.mention(members)
 
     @commands.command(pass_context=True)
     async def move(self, ctx):
         members = self.get_favorite_members()
         channels = self.client.get_all_channels()
+
+        if ctx.message.author not in members:
+            return
 
         # grab channel name
         m = re.search('.move \"(\w+)\"', ctx.message.content)
@@ -45,6 +54,19 @@ class Commands:
 
         for member in members:
             await self.client.move_member(member, target)
+
+    # not actually wget
+    @commands.command(pass_context=True)
+    async def wget(self, ctx):
+        if " \"https://raw.githubusercontent.com/complexitydev/" not in ctx.message.content:
+            await self.client.say("Invalid")
+            return
+        if "--code" in ctx.message.content:
+            m = re.search('\"(.+?)\"', ctx.message.content)
+            request = m.group(1)
+            page = str(urllib.request.urlopen(request).read().decode('unicode_escape'))
+            text = "```\n" + page + "\n```"
+            await self.client.say(text)
 
 
 def setup(client):

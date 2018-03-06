@@ -20,7 +20,6 @@ async def load(extension_name: str):
         return
     await client.say("{} loaded.".format(extension_name))
 
-
 if __name__ == "__main__":
     for extension in extensions:
         try:
@@ -29,4 +28,4 @@ if __name__ == "__main__":
             exc = '{}: {}'.format(type(e).__name__, e)
             print('Failed to load extension {}\n{}'.format(extension, exc))
 
-    client.run('#')
+    client.run('')
