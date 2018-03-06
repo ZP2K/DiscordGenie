@@ -21,7 +21,7 @@ async def load(extension_name: str):
     await client.say("{} loaded.".format(extension_name))
 
 
-if __name__ == "__main__":
+def test_api_status():
     for extension in extensions:
         try:
             client.load_extension(extension)
