@@ -15,3 +15,4 @@ A discord bot written in python using discord.py
 * Play Audio
 * Graphite & Grafana Integration
 * Cryptocurrency information
+* Database for favorite users, roles, etc
