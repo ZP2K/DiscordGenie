@@ -2,7 +2,7 @@ import re
 
 from discord.ext import commands
 
-from modules import lambda_functions
+from modules.awslambda import lambda_functions
 
 
 class Commands:
