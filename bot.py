@@ -28,4 +28,4 @@ if __name__ == "__main__":
             exc = '{}: {}'.format(type(e).__name__, e)
             print('Failed to load extension {}\n{}'.format(extension, exc))
 
-    client.run('')
+    client.run('NDIwMzcyNTU5MzkwMDQ4MjU2.DX9ylA.WFHU5Rac053QjiY1cyRILlRCtXg')
