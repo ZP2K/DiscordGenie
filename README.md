@@ -1,8 +1,6 @@
+# DiscordGenesis
 ##
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/Django.svg)](https://github.com/complexitydev/DiscordGenesis)
-
-# DiscordGenesis
-
 A discord bot written in python using discord.py
 
 # Features
