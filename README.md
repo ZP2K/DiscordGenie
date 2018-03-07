@@ -12,7 +12,7 @@ A discord bot written in python using discord.py
 # Planned Features
 
 * Create Dotabuff API and Integrate
-* Moderation Commands ✅
+* Moderation Commands (https://img.shields.io/badge/status-completed-green.svg)
 * Play Audio
 * Graphite & Grafana Integration
 * Cryptocurrency information
