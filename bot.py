@@ -1,7 +1,10 @@
+# Ben Humphrey
+# github.com/complexitydev
+# ben@complexitydevelopment.com
 from discord.ext import commands
 
 client = commands.Bot(command_prefix='.')
-extensions = ["commands"]
+extensions = ["modules.moderation.moderation"]
 
 
 @client.event
@@ -28,4 +31,4 @@ if __name__ == "__main__":
             exc = '{}: {}'.format(type(e).__name__, e)
             print('Failed to load extension {}\n{}'.format(extension, exc))
 
-    client.run('NDIwMzcyNTU5MzkwMDQ4MjU2.DX-96g.kU-RtfEHRa-Mt8IcxXUifIkGDss')
+    client.run('NDIwMzcyNTU5MzkwMDQ4MjU2.DYClJg.8wUzQZSijt8kjOZ_IA_RIwocEg4')
