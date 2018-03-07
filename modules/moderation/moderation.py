@@ -55,7 +55,6 @@ class Commands:
                 for channel in self.client.get_all_channels():
                     if channel.type == discord.ChannelType.voice:
                         await self.client.move_member(member, channel)
-                        await self.client.send_message(member, 'Get fucked')
                         await asyncio.sleep(.5)
         # move the user back to the original channel
         await self.client.move_member(member, prev_channel)
