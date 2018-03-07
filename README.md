@@ -17,5 +17,5 @@ A discord bot written in python using discord.py
 * Cryptocurrency information
 * Database for favorite users, roles, etc
 
-[![Status](https://img.shields.io/badge/status-completed-green.svg)]
+[![Status](https://img.shields.io/badge/status-completed-green.svg)](https://github.com/complexitydev/DiscordGenesis)
 * Moderation Commands 
