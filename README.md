@@ -11,6 +11,7 @@ A discord bot written in python using discord.py
 
 # Planned Features
 
+[![Status](https://img.shields.io/badge/status-in%20progress-red.svg)](https://github.com/complexitydev/DiscordGenesis)
 * Create Dotabuff API and Integrate
 * Play Audio
 * Graphite & Grafana Integration
