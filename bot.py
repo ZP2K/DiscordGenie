@@ -1,10 +1,11 @@
 # Ben Humphrey
 # github.com/complexitydev
 # ben@complexitydevelopment.com
+import discord
 from discord.ext import commands
 
 client = commands.Bot(command_prefix='.')
-extensions = ["modules.moderation.moderation"]
+extensions = ["modules.moderation.moderation", "modules.games.games"]
 
 
 @client.event
@@ -12,16 +13,7 @@ async def on_ready():
     print('Logged in as')
     print(client.user.name)
     print('-------------')
-
-
-@client.command()
-async def load(extension_name: str):
-    try:
-        client.load_extension(extension_name)
-    except (AttributeError, ImportError) as e:
-        await client.say("```py\n{}: {}\n```".format(type(e).__name__, str(e)))
-        return
-    await client.say("{} loaded.".format(extension_name))
+    await client.change_presence(game=discord.Game(name="Ready for commands!"), afk=False)
 
 if __name__ == "__main__":
     for extension in extensions:
