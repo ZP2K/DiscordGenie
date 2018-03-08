@@ -65,79 +65,74 @@ class Commands:
         # move the user back to the original channel
         await self.client.move_member(member, prev_channel)
 
+    @commands.command(pass_context=True)
+    async def move(self, ctx, request):
+        request = request.lower()
+        members = self.get_favorite_members()
+        channels = self.client.get_all_channels()
 
-@commands.command(pass_context=True)
-async def move(self, ctx, request):
-    request = request.lower()
-    members = self.get_favorite_members()
-    channels = self.client.get_all_channels()
+        if ctx.message.author not in members:
+            return
 
-    if ctx.message.author not in members:
-        return
+        target = None
+        # allow partial matches, not efficient
+        for channel in channels:
+            if request in channel.name.lower():
+                target = channel
 
-    target = None
-    # allow partial matches, not efficient
-    for channel in channels:
-        if request in channel.name.lower():
-            target = channel
+        for member in members:
+            await self.client.move_member(member, target)
 
-    for member in members:
-        await self.client.move_member(member, target)
+    @commands.command(pass_context=True)
+    async def kick(self, ctx):
+        global_mods = ["95321801344679936", "95582503061954560", "177934831416639488"]
+        protected = ["95321801344679936", "95582503061954560"]
 
+        if ctx.message.author.id not in global_mods:
+            await self.client.say("You are not permitted!")
+            return
+        if not ctx.message.mentions:
+            return
 
-@commands.command(pass_context=True)
-async def kick(self, ctx):
-    global_mods = ["95321801344679936", "95582503061954560", "177934831416639488"]
-    protected = ["95321801344679936", "95582503061954560"]
+        for member in ctx.message.mentions:
+            if member.id in protected and ctx.message.author.id != "95321801344679936":
+                await self.client.say("Only protected users can kick other global mods!")
+                continue
+            await self.client.kick(member)
+            await self.client.say("Kicked {}! Request={}".format(member.name, ctx.message.author.name))
 
-    if ctx.message.author.id not in global_mods:
-        await self.client.say("You are not permitted!")
-        return
-    if not ctx.message.mentions:
-        return
+    @commands.command(pass_context=True)
+    async def ban(self, ctx):
+        if ctx.message.author.id != "95321801344679936":
+            return
 
-    for member in ctx.message.mentions:
-        if member.id in protected and ctx.message.author.id != "95321801344679936":
-            await self.client.say("Only protected users can kick other global mods!")
-            continue
-        await self.client.kick(member)
-        await self.client.say("Kicked {}! Request={}".format(member.name, ctx.message.author.name))
+        for member in ctx.message.mentions:
+            await self.client.ban(member)
+            await self.client.say("Banned {}! Request={}".format(member.name, ctx.message.author.name))
 
+    @commands.command(pass_context=True)
+    async def unban(self, ctx):
+        if ctx.message.author.id != "95321801344679936":
+            return
 
-@commands.command(pass_context=True)
-async def ban(self, ctx):
-    if ctx.message.author.id != "95321801344679936":
-        return
+        for member in ctx.message.mentions:
+            await self.client.unban(member)
+            await self.client.say("Unbanned {}! Request={}".format(member.name, ctx.message.author.name))
+    
+    @commands.command(pass_context=True)
+    async def clear(self, ctx, i):
+        if ctx.message.author.id != "95321801344679936":
+            return
+        if not i or int(i) <= 1:
+            await self.client.say("Request failed! Minimum two messages to delete, or you do not meet the permissions")
+            return
+        i = int(i)
 
-    for member in ctx.message.mentions:
-        await self.client.ban(member)
-        await self.client.say("Banned {}! Request={}".format(member.name, ctx.message.author.name))
-
-
-@commands.command(pass_context=True)
-async def unban(self, ctx):
-    if ctx.message.author.id != "95321801344679936":
-        return
-
-    for member in ctx.message.mentions:
-        await self.client.unban(member)
-        await self.client.say("Unbanned {}! Request={}".format(member.name, ctx.message.author.name))
-
-
-@commands.command(pass_context=True)
-async def clear(self, ctx, i):
-    if ctx.message.author.id != "95321801344679936":
-        return
-    if not i or int(i) <= 1:
-        await self.client.say("Request failed! Minimum two messages to delete, or you do not meet the permissions")
-        return
-    i = int(i)
-
-    messages = []
-    async for x in self.client.logs_from(ctx.message.channel, limit=i):
-        messages.append(x)
-    await self.client.delete_messages(messages)
-    await self.client.say("Cleared {} messages! Request={}".format(i, ctx.message.author.name))
+        messages = []
+        async for x in self.client.logs_from(ctx.message.channel, limit=i):
+            messages.append(x)
+        await self.client.delete_messages(messages)
+        await self.client.say("Cleared {} messages! Request={}".format(i, ctx.message.author.name))
 
 
 def setup(client):
