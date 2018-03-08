@@ -65,7 +65,7 @@ class Commands:
                         await asyncio.sleep(.5)
 
         # move the user back to the original channel
-        self.client.move_member(member, prev_channel)
+        await self.client.move_member(member, prev_channel)
 
 
 @commands.command(pass_context=True)
