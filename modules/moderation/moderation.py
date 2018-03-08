@@ -47,6 +47,9 @@ class Commands:
         if ctx.message.author not in members:
             return
 
+        if len(ctx.message.mentions) < 1:
+            return
+        
         i = int(i)
         for x in range(0, i):
             for member in ctx.message.mentions:
