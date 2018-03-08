@@ -39,14 +39,13 @@ class Commands:
 
     @commands.command(pass_context=True)
     async def abuse(self, ctx, i):
+        if not isinstance(i, int):
+            i = 1
+
         members = self.get_favorite_members()
 
         if ctx.message.author not in members:
             return
-        if not ctx.message.mentions:
-            return
-        if not i:
-            i = 1
 
         i = int(i)
         for x in range(0, i):
