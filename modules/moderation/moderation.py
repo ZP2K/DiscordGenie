@@ -38,8 +38,8 @@ class Commands:
         await self.mention(members)
 
     @commands.command(pass_context=True)
-    async def abuse(self, ctx, i=0):
-        if not isinstance(i, int):
+    async def abuse(self, ctx, mention, i=0):
+        if not isinstance(i, int) or i == 0:
             i = 1
 
         members = self.get_favorite_members()
@@ -50,7 +50,7 @@ class Commands:
         if len(ctx.message.mentions) < 1:
             await self.client.say("```\n"
                                   "You didn't mention anyone.\nUsage:"
-                                  "\n.[c] [number of iterations optional] [mentioned user]```")
+                                  "\n.[c] [mentioned user] [number of iterations optional]\n```")
             return
 
         i = int(i)
