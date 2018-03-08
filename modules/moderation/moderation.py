@@ -55,14 +55,12 @@ class Commands:
 
         i = int(i)
         for member in ctx.message.mentions:
-            await self.client.say("iter on {}".format(member.name))
             prev_channel = member.voice.voice_channel
             for x in range(0, i):
                 for channel in self.client.get_all_channels():
                     if channel.type == discord.ChannelType.voice:
-                        await self.client.say("we're moving to {} ".format(channel.name))
                         await self.client.move_member(member, channel)
-                        await asyncio.sleep(.5)
+                        await asyncio.sleep(.2)
 
         # move the user back to the original channel
         await self.client.move_member(member, prev_channel)
