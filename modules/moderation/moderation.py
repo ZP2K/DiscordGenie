@@ -38,7 +38,7 @@ class Commands:
         await self.mention(members)
 
     @commands.command(pass_context=True)
-    async def abuse(self, ctx, mention, i=0):
+    async def abuse(self, ctx, mention="", i=0):
         if not isinstance(i, int) or i == 0:
             i = 1
 
