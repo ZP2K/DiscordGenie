@@ -16,7 +16,7 @@ class Commands:
     def parse_heroes(self, page):
         m = re.search('<tbody>(.+)?<\/tbody>', page.rstrip('\n'), re.IGNORECASE)
         table = m.group(1)
-        filename = "test.txt"
+        filename = "/home/ben/discord_bot/DiscordGenesis/modules/dotabuff/test.txt"
         file = open(filename)
         file.write(table)
         # Group 1 hero name, Group 2 win rate
