@@ -2,6 +2,7 @@
 # github.com/complexitydev
 # ben@complexitydevelopment.com
 
+import operator
 import re
 
 from bs4 import BeautifulSoup
@@ -29,7 +30,8 @@ class Commands:
                 r = re.search('value=\"([\d\.]+).{50,75}win', str(cell))
                 if r:
                     table[hero] = r.group(1)
-        print(table)
+        sorted = sorted(table.items(), key=operator.itemgetter(1))
+        print(sorted)
 
     @commands.command(pass_context=True)
     async def winrate(self, ctx, request):
