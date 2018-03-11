@@ -4,7 +4,7 @@
 
 from discord.ext import commands
 
-from modules.awslambda import api
+from modules.aws_lambda import api
 
 
 class Commands:
