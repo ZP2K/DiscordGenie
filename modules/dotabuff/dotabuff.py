@@ -34,7 +34,7 @@ class Commands:
         output = "```\n"
         for i in range(10):
             stat = sort[i]
-            output += "{}, {.2g}%\n".format(stat[0], float(stat[1]))
+            output += "{}, {.2f}%\n".format(stat[0], float(stat[1]))
         output += "```"
         return output
 
