@@ -132,7 +132,6 @@ class Commands:
         async for x in self.client.logs_from(ctx.message.channel, limit=i):
             messages.append(x)
         await self.client.delete_messages(messages)
-        await self.client.say("Cleared {} messages! Request={}".format(i, ctx.message.author.name))
 
 
 def setup(client):
