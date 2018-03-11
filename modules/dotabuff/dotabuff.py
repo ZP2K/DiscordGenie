@@ -15,7 +15,6 @@ class Commands:
     def __init__(self, client):
         self.client = client
 
-    @staticmethod
     def parse_heroes(self, page):
         soup = BeautifulSoup(page)
         rows = soup.find_all('tr')
