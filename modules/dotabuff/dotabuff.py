@@ -17,7 +17,7 @@ class Commands:
         m = re.search('<tbody>(.+)?<\/tbody>', page.rstrip('\n'), re.IGNORECASE)
         table = m.group(1)
         filename = "test.txt"
-        file = open(filename, "r")
+        file = open(filename)
         file.write(table)
         # Group 1 hero name, Group 2 win rate
         pattern = re.compile(
