@@ -2,8 +2,7 @@
 # github.com/complexitydev
 # ben@complexitydevelopment.com
 
-import re
-
+from bs4 import BeautifulSoup
 from discord.ext import commands
 
 from modules.aws_lambda import aws
@@ -14,21 +13,11 @@ class Commands:
         self.client = client
 
     def parse_heroes(self, page):
-        m = re.search('<tbody>(.+)?<\/tbody>', page.rstrip('\n'), re.IGNORECASE)
-        table = m.group(1)
-        filename = "test.txt"
-        file = open(filename, 'w')
-        file.write(table.rstrip("\\"))
-        # Group 1 hero name, Group 2 win rate
-        pattern = re.compile(
-            '<tr>.{0,750}value=\\"(\w+)\\\">.{200,900}value=\\\"([\d\.]+)\\\">.{0,250}segment-win.{0,600}<\/tr>',
-            re.IGNORECASE)
-        if pattern.match(table):
-            print("yep")
-        else:
-            print("nope")
-        for (name, winrate) in re.findall(pattern, table):
-            print(name, winrate)
+        soup = BeautifulSoup(page)
+        rows = soup.find_all('tr')
+        for row in rows:
+            print(row)
+
 
     @commands.command(pass_context=True)
     async def winrate(self, ctx, request):
