@@ -5,7 +5,9 @@ import discord
 from discord.ext import commands
 
 client = commands.Bot(command_prefix='.')
-extensions = ["modules.moderation.moderation", "modules.games.games"]
+extensions = ["modules.moderation.moderation",
+              "modules.games.games",
+              "modules.dotabuff.dotabuff"]
 
 
 @client.event
