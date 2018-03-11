@@ -43,8 +43,9 @@ class Commands:
         positions = ["mid", "off", "safe", "jungle", "roaming"]
 
         if not request or request not in positions:
-            usage = "```Usage:\n.dotabuff [mid|off|safe|jungle|roaming]\n```"
+            usage = "```Usage:\n.winrate [mid|off|safe|jungle|roaming]\n```"
             await self.client.say(usage)
+            return
 
         output = self.parse_heroes(aws.process("dotabuff", request))
         await self.client.say(output)
