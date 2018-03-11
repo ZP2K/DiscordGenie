@@ -15,6 +15,7 @@ class Commands:
     def __init__(self, client):
         self.client = client
 
+    @staticmethod
     def parse_heroes(self, page):
         soup = BeautifulSoup(page)
         rows = soup.find_all('tr')
@@ -34,17 +35,18 @@ class Commands:
         output = "```\n"
         for i in range(10):
             stat = sort[i]
-            output += "Hero: {} , Win rate: {}\n".format(stat[0], stat[1])
+            output += "{}, {}%\n".format(stat[0], stat[1])
         output += "```"
         return output
 
-    @commands.command(pass_context=True)
-    async def winrate(self, ctx, request):
+    @commands.command()
+    async def winrate(self, request):
         positions = ["mid", "off", "safe", "jungle", "roaming"]
 
         if not request or request not in positions:
             usage = "```Usage:\n.dotabuff [mid|off|safe|jungle|roaming]"
             await self.client.say(usage)
+
         output = self.parse_heroes(aws.process("dotabuff", request))
         await self.client.say(output)
 
