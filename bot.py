@@ -4,6 +4,8 @@
 import discord
 from discord.ext import commands
 
+from config.build_config import read_api_key
+
 client = commands.Bot(command_prefix='.')
 extensions = ["modules.moderation.moderation",
               "modules.games.games",
@@ -26,4 +28,4 @@ if __name__ == "__main__":
             exc = '{}: {}'.format(type(e).__name__, e)
             print('Failed to load extension {}\n{}'.format(extension, exc))
 
-    client.run('NDIwMzcyNTU5MzkwMDQ4MjU2.DYClJg.8wUzQZSijt8kjOZ_IA_RIwocEg4')
+    client.run(read_api_key())
