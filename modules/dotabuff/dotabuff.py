@@ -16,7 +16,9 @@ class Commands:
         soup = BeautifulSoup(page)
         rows = soup.find_all('tr')
         for row in rows:
-            print(row)
+            cells = row.findChildren('td')
+            for cell in cells:
+                print(cell.string)
 
 
     @commands.command(pass_context=True)
