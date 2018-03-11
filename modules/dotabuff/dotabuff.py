@@ -14,11 +14,11 @@ class Commands:
         self.client = client
 
     def parse_heroes(self, page):
-        m = re.search('<tbody>(.+)?<\/tbody>', page.rstrip())
+        m = re.search('<tbody>(.+)?<\/tbody>', page.rstrip(), re.IGNORECASE)
         table = m.group(1)
 
         # Group 1 hero name, Group 2 win rate
-        pattern = re.compile('<tr>.*value="(\w+)\">.*value=\"([\d\.]+)\">.{0,250}segment-win')
+        pattern = re.compile('<tr>.*value="(\w+)\">.*value=\"([\d\.]+)\">.{0,250}segment-win', re.IGNORECASE)
         for (name, winrate) in re.findall(pattern, table):
             print(name, winrate)
 
