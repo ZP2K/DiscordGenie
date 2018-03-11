@@ -16,10 +16,9 @@ class Commands:
         soup = BeautifulSoup(page)
         rows = soup.find_all('tr')
         for row in rows:
-            cells = row.findChildren('td')
-            for cell in cells:
+            cells = row.findChildren('td', {"class": 'cell-icon'})
+            for cell in cell:
                 print(cell.string)
-
 
     @commands.command(pass_context=True)
     async def winrate(self, ctx, request):
