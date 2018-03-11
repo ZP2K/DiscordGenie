@@ -25,7 +25,7 @@ def process(service, request):
     # urllib.request.urlopen(req)
     test = {}
     test['site'] = "dotabuff"
-    test['request'] = "mid"
+    test['lookup'] = "mid"
     client = boto3.client('lambda', region_name='us-east-2')
     response = client.invoke(
         FunctionName='arn:aws:lambda:us-east-2:332807454899:function:lambda-html',
