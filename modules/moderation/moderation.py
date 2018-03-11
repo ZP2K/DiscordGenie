@@ -124,7 +124,7 @@ class Commands:
         if ctx.message.author.id != "95321801344679936":
             return
         if not i or int(i) <= 1:
-            await self.client.say("Request failed! Minimum two messages to delete, or you do not meet the permissions")
+            await self.client.say("Request failed! Minimum two messages to delete")
             return
         i = int(i)
 
