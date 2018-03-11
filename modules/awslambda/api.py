@@ -33,6 +33,6 @@ def process(service, request):
         LogType='None',
         Payload=json.dumps(test)
     )
-    print(json.dumps(response))
+    print(response)
 
 process("dotabuff", "mid")
