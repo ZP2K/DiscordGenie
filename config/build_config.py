@@ -8,4 +8,4 @@ import configparser
 def read_api_key():
     config = configparser.ConfigParser()
     config.read('bot.ini')
-    return config['disordapi']['token']
+    return config['discordapi']['token']
