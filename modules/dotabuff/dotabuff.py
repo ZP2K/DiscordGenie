@@ -30,8 +30,11 @@ class Commands:
                 r = re.search('value=\"([\d\.]+).{50,75}win', str(cell))
                 if r:
                     table[hero] = r.group(1)
-        sort = sorted(table.items(), key=operator.itemgetter(1))
-        print(sort)
+        sort = sorted(table.items(), key=operator.itemgetter(1), reverse=True)
+        for i in range(10):
+            print(sort[i])
+
+
 
     @commands.command(pass_context=True)
     async def winrate(self, ctx, request):
