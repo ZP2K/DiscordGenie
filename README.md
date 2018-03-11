@@ -15,3 +15,4 @@ A discord bot for my personal channel written in python using discord.py
 [![Status](https://img.shields.io/badge/status-completed-green.svg)](https://github.com/complexitydev/DiscordGenesis)
 * Moderation Commands (abuse, assemble, ban, clear, kick, move, unban)
 * Games (roll)
+* Dotabuff Winrate Fetch
