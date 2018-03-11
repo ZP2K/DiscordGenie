@@ -18,7 +18,7 @@ class Commands:
         table = m.group(1)
         filename = "test.txt"
         file = open(filename, 'w')
-        file.write(table)
+        file.write(table.rstrip("\\"))
         # Group 1 hero name, Group 2 win rate
         pattern = re.compile(
             '<tr>.{0,750}value=\\"(\w+)\\\">.{500,900}value=\\\"([\d\.]+)\\\">.{0,250}segment-win.{0,600}<\/tr>',
