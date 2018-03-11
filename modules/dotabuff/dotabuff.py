@@ -16,8 +16,9 @@ class Commands:
     def parse_heroes(self, page):
         m = re.search('<tbody>(.+)?<\/tbody>', page.rstrip('\n'), re.IGNORECASE)
         table = m.group(1)
-        print(table)
-        print("we are here")
+        filename = "test.txt"
+        file = open(filename, "r")
+        file.write(table)
         # Group 1 hero name, Group 2 win rate
         pattern = re.compile(
             '<tr>.{0,750}value=\\"(\w+)\\\">.{500,900}value=\\\"([\d\.]+)\\\">.{0,250}segment-win.{0,600}<\/tr>',
