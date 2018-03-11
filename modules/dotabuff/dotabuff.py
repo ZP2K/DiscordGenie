@@ -2,6 +2,8 @@
 # github.com/complexitydev
 # ben@complexitydevelopment.com
 
+import re
+
 from bs4 import BeautifulSoup
 from discord.ext import commands
 
@@ -15,10 +17,22 @@ class Commands:
     def parse_heroes(self, page):
         soup = BeautifulSoup(page)
         rows = soup.find_all('tr')
+        table = {}
         for row in rows:
-            cells = row.findChildren('td', {"class": 'cell-icon'})
-            for cell in cells:
-                print(cell.string)
+            # cells = row.findChildren('td', class_="cell-icon")
+            # for cell in cells:
+            #     print(cell.string)
+            hero = ''
+            for cell in row.findChildren('td'):
+                r = re.search('<td class=\"cell-icon\".{0,50}value=\"(\w+)\"', str(cell))
+                if r:
+                    hero = r.group(1)
+                    table[hero] = 0
+                    continue
+                r = re.search('value=\"([\d\.]+).{50,75}win', str(cell))
+                if r:
+                    table[hero] = r.group(1)
+        print(table)
 
     @commands.command(pass_context=True)
     async def winrate(self, ctx, request):
