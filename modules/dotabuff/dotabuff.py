@@ -19,6 +19,7 @@ class Commands:
         rows = soup.find_all('tr')
         table = {}
         for row in rows:
+            print(row)
             # cells = row.findChildren('td', class_="cell-icon")
             # for cell in cells:
             #     print(cell.string)
