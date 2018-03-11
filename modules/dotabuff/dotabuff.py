@@ -17,7 +17,7 @@ class Commands:
         rows = soup.find_all('tr')
         for row in rows:
             cells = row.findChildren('td', {"class": 'cell-icon'})
-            for cell in cell:
+            for cell in cells:
                 print(cell.string)
 
     @commands.command(pass_context=True)
