@@ -18,4 +18,4 @@ def process(service, request):
         Payload=json.dumps(test)
     )
     data = response['Payload'].read()
-    print(data)
+    return data
