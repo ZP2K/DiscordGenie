@@ -21,8 +21,12 @@ class Commands:
         file.write(table.rstrip("\\"))
         # Group 1 hero name, Group 2 win rate
         pattern = re.compile(
-            '<tr>.{0,750}value=\\"(\w+)\\\">.{500,900}value=\\\"([\d\.]+)\\\">.{0,250}segment-win.{0,600}<\/tr>',
+            '<tr>.{0,750}value=\\"(\w+)\\\">.{200,900}value=\\\"([\d\.]+)\\\">.{0,250}segment-win.{0,600}<\/tr>',
             re.IGNORECASE)
+        if pattern.match(table):
+            print("yep")
+        else:
+            print("nope")
         for (name, winrate) in re.findall(pattern, table):
             print(name, winrate)
 
