@@ -39,8 +39,8 @@ class Commands:
         output += "```"
         return output
 
-    @commands.command()
-    async def winrate(self, request):
+    @commands.command(pass_context=True)
+    async def winrate(self, ctx, request):
         positions = ["mid", "off", "safe", "jungle", "roaming"]
 
         if not request or request not in positions:
