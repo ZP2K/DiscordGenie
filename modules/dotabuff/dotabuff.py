@@ -31,10 +31,12 @@ class Commands:
                 if r:
                     table[hero] = r.group(1)
         sort = sorted(table.items(), key=operator.itemgetter(1), reverse=True)
+        output = "```\n"
         for i in range(10):
-            print(sort[i])
-
-
+            stat = sort[i]
+            output += "Hero: {} , Win rate: {}\n".format(stat[0], stat[1])
+        output += "```"
+        return output
 
     @commands.command(pass_context=True)
     async def winrate(self, ctx, request):
@@ -43,9 +45,8 @@ class Commands:
         if not request or request not in positions:
             usage = "```Usage:\n.dotabuff [mid|off|safe|jungle|roaming]"
             await self.client.say(usage)
-        await self.client.say("Processing winrate request for position {}".format(request))
-
-        self.parse_heroes(aws.process("dotabuff", request))
+        output = self.parse_heroes(aws.process("dotabuff", request))
+        await self.client.say(output)
 
 
 def setup(client):
