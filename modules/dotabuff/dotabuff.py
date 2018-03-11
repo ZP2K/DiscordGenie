@@ -22,7 +22,7 @@ class Commands:
             hero = ''
             for cell in row.findChildren('td'):
                 print(cell)
-                r = re.search('<td class=\"cell-icon\".{0,50}value=\"(\w+)\"', str(cell))
+                r = re.search('<td class=\"cell-icon\".{0,50}value=\"([a-z\s]+)\"', str(cell))
                 if r:
                     hero = r.group(1)
                     table[hero] = 0
