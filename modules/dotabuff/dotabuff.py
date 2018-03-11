@@ -14,7 +14,7 @@ class Commands:
         self.client = client
 
     def parse_heroes(self, page):
-        m = re.search('<tbody>(.+)?<\/tbody>', page.rstrip(), re.IGNORECASE)
+        m = re.search('<tbody>(.+)?<\/tbody>', page.rstrip('\n'), re.IGNORECASE)
         table = m.group(1)
         print(table)
         print("we are here")
