@@ -23,7 +23,7 @@ if __name__ == "__main__":
     for extension in extensions:
         try:
             client.load_extension(extension)
-
+            print('Loaded extension {}'.format(extension))
         except Exception as e:
             exc = '{}: {}'.format(type(e).__name__, e)
             print('Failed to load extension {}\n{}'.format(extension, exc))
