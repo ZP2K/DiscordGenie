@@ -18,7 +18,7 @@ def lambda_handler(event, context):
             'message': page
         }
     return {
-        'message': "Invalid site!"
+        'message': "Invalid service!"
     }
 
 
