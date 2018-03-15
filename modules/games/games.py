@@ -20,6 +20,8 @@ class Commands:
         r = random.randint(1, 6)
         if r:
             await self.client.say("You were shot. Have fun!")
+            txt = ".abuse {} 1".format(ctx.message.author.mention)
+            print(txt)
             message = await self.client.say("test test test")
             print(message.content)
         else:
