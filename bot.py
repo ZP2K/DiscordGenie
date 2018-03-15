@@ -18,6 +18,7 @@ async def on_ready():
     print(client.user.name)
     print('-------------')
     await client.change_presence(game=discord.Game(name="Ready for commands!"), afk=False)
+    print('Ready for commands')
 
 if __name__ == "__main__":
     for extension in extensions:

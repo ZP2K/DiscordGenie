@@ -5,12 +5,8 @@
       <paths name="Canada">
         <serverdata>
           <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="/home/ben/discord_bot/DiscordGenesis" local="$PROJECT_DIR$" web="/" />
           </mappings>
-          <excludedPaths>
-            <excludedPath local="true" path="$PROJECT_DIR$" />
-            <excludedPath path="/home/ben/discord_bot/DiscordGenesis" />
-          </excludedPaths>
         </serverdata>
       </paths>
     </serverData>
