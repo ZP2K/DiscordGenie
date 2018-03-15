@@ -43,7 +43,7 @@ class Commands:
             i = 1
 
         members = self.get_favorite_members()
-
+        print(ctx.message.text)
         if ctx.message.author not in members:
             return
 
