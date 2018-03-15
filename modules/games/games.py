@@ -18,9 +18,9 @@ class Commands:
     @commands.command(pass_context=True)
     async def roulette(self, ctx):
         r = random.randint(1, 6)
-        if r == 3:
+        if r:
             await self.client.say("You were shot. Have fun!")
-            await self.client.say(".abuse {} 5".format(ctx.message.author.mention))
+            await self.client.send_message(ctx.message.channel, ".abuse {} 5".format(ctx.message.author))
         else:
             await self.client.say("You're safe!")
 
