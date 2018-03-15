@@ -15,6 +15,15 @@ class Commands:
         r = random.randint(1, 6)
         await self.client.say("You rolled {}!".format(r))
 
+    @commands.command(pass_context=True)
+    async def roulette(self, ctx):
+        r = random.randint(1, 6)
+        if r == 3:
+            await self.client.say("You were shot. Have fun!")
+            await self.client.say(".abuse {} 5".format(ctx.message.author.mention))
+        else:
+            await self.client.say("You're safe!")
+
 
 def setup(client):
     client.add_cog(Commands(client))
