@@ -20,7 +20,8 @@ class Commands:
         r = random.randint(1, 6)
         if r:
             await self.client.say("You were shot. Have fun!")
-            message = await self.client.say(".abuse {} 1".format(ctx.message.author.mention))
+            message = await self.client.send_message(ctx.message.channel,
+                                                     ".abuse {} 1".format(ctx.message.author.mention))
             print(message.content)
             await self.client.process_commands(message)
         else:
