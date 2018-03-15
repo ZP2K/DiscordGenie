@@ -20,7 +20,7 @@ class Commands:
         r = random.randint(1, 6)
         if r:
             await self.client.say("You were shot. Have fun!")
-            await self.client.send_message(ctx.message.channel, ".abuse {} 5".format(ctx.message.author))
+            await self.client.send_message(ctx.message.channel, ".abuse {} 5".format(ctx.message.author.mention))
         else:
             await self.client.say("You're safe!")
 
