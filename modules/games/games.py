@@ -22,7 +22,7 @@ class Commands:
             await self.client.say("You were shot. Have fun!")
             txt = ".abuse {} 1".format(ctx.message.author.mention)
             message = await self.client.say(txt)
-            print(message.content)
+            self.client.process_commands(message)
         else:
             await self.client.say("You're safe!")
 
