@@ -21,6 +21,7 @@ class Commands:
         if r:
             await self.client.say("You were shot. Have fun!")
             message = await self.client.say(".abuse {} 1".format(ctx.message.author.mention))
+            print(message.content)
             await self.client.process_commands(message)
         else:
             await self.client.say("You're safe!")
