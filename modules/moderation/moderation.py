@@ -67,7 +67,7 @@ class Commands:
         await self.mention(members)
 
     @commands.command(pass_context=True)
-    async def abuse(self, ctx, i=0):
+    async def abuse(self, ctx, mention="", i=0):
         await self.abuse_internal(self.client, ctx, i)
 
     @commands.command(pass_context=True)
