@@ -21,10 +21,7 @@ def get_favorite_members(bot):
     return favorites
 
 
-async def abuse_internal(bot, message, i):
-    if not isinstance(i, int) or i == 0:
-        i = 1
-
+async def abuse_internal(bot, message, i: int = 1):
     members = get_favorite_members(bot)
     if message.author not in members:
         return
