@@ -20,12 +20,11 @@ class Commands:
     @commands.command(pass_context=True)
     async def roulette(self, ctx):
         r = random.randint(1, 6)
-        if r:
+        if r == 3:
             await self.client.say("You were shot. Have fun!")
-            txt = ".abuse {} 1".format(ctx.message.author.mention)
+            txt = ".abuse {} 5".format(ctx.message.author.mention)
             message = await self.client.say(txt)
-            print(message.author.name)
-            await abuse_internal(self.client, message, 1)
+            await abuse_internal(self.client, message, 5)
         else:
             await self.client.say("You're safe!")
 
