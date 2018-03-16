@@ -7,11 +7,24 @@ import discord
 from discord.ext import commands
 
 
+def get_favorite_members(bot):
+    members = bot.client.get_all_members()
+    favorites = []
+    for member in members:
+        # should be stored in config
+        if member.name.startswith("Vice") \
+                or member.name.startswith("heyo") \
+                or member.name.startswith("ben") \
+                or member.name.startswith("major"):
+            favorites.append(member)
+    return favorites
+
+
 async def abuse_internal(bot, ctx, i):
     if not isinstance(i, int) or i == 0:
         i = 1
 
-    members = bot.get_favorite_members()
+    members = bot.get_favorite_members(bot)
     print(ctx.message.content)
     if ctx.message.author not in members:
         return
@@ -46,21 +59,9 @@ class Commands:
         text = ' '.join(to_mention)
         await self.client.say(text)
 
-    def get_favorite_members(self):
-        members = self.client.get_all_members()
-        favorites = []
-        for member in members:
-            # should be stored in config
-            if member.name.startswith("Vice") \
-                    or member.name.startswith("heyo") \
-                    or member.name.startswith("ben") \
-                    or member.name.startswith("major"):
-                favorites.append(member)
-        return favorites
-
     @commands.command(pass_context=True)
     async def assemble(self, ctx):
-        members = self.get_favorite_members()
+        members = self.get_favorite_members(self.client)
         if ctx.message.author not in members:
             return
         await self.mention(members)
@@ -72,7 +73,7 @@ class Commands:
     @commands.command(pass_context=True)
     async def move(self, ctx, request):
         request = request.lower()
-        members = self.get_favorite_members()
+        members = self.get_favorite_members(self.client)
         channels = self.client.get_all_channels()
 
         if ctx.message.author not in members:
