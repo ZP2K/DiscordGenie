@@ -23,8 +23,8 @@ class Commands:
         if r:
             await self.client.say("You were shot. Have fun!")
             txt = ".abuse {} 1".format(ctx.message.author.mention)
-            await self.client.say(txt)
-            await abuse_internal(self.client, txt, 1)
+            message = await self.client.say(txt)
+            await abuse_internal(self.client, message, 1)
         else:
             await self.client.say("You're safe!")
 
