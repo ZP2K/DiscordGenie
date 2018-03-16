@@ -24,7 +24,7 @@ async def abuse_internal(bot, ctx, i):
     if not isinstance(i, int) or i == 0:
         i = 1
 
-    members = bot.get_favorite_members(bot)
+    members = get_favorite_members(bot)
     print(ctx.message.content)
     if ctx.message.author not in members:
         return
@@ -61,7 +61,7 @@ class Commands:
 
     @commands.command(pass_context=True)
     async def assemble(self, ctx):
-        members = self.get_favorite_members(self.client)
+        members = get_favorite_members(self.client)
         if ctx.message.author not in members:
             return
         await self.mention(members)
@@ -73,7 +73,7 @@ class Commands:
     @commands.command(pass_context=True)
     async def move(self, ctx, request):
         request = request.lower()
-        members = self.get_favorite_members(self.client)
+        members = get_favorite_members(self.client)
         channels = self.client.get_all_channels()
 
         if ctx.message.author not in members:
