@@ -15,7 +15,8 @@ def get_favorite_members(bot):
         if member.name.startswith("Vice") \
                 or member.name.startswith("heyo") \
                 or member.name.startswith("ben") \
-                or member.name.startswith("major"):
+                or member.name.startswith("major") \
+                or member.name.startswith("Ben"):
             favorites.append(member)
     return favorites
 
