@@ -30,7 +30,7 @@ async def abuse_internal(bot, ctx, i):
         return
 
     if len(ctx.message.mentions) < 1:
-        await bot.client.say("```\n"
+        await bot.say("```\n"
                              "You didn't mention anyone.\nUsage:"
                              "\n.[c] [mentioned user] [number of iterations optional]\n```")
         return
@@ -39,7 +39,7 @@ async def abuse_internal(bot, ctx, i):
     for member in ctx.message.mentions:
         prev_channel = member.voice.voice_channel
         for x in range(0, i):
-            for channel in bot.client.get_all_channels():
+            for channel in bot.get_all_channels():
                 if channel.type == discord.ChannelType.voice:
                     await bot.client.move_member(member, channel)
                     await asyncio.sleep(.2)
