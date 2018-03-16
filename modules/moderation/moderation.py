@@ -7,6 +7,34 @@ import discord
 from discord.ext import commands
 
 
+async def abuse_internal(bot, ctx, i):
+    if not isinstance(i, int) or i == 0:
+        i = 1
+
+    members = bot.get_favorite_members()
+    print(ctx.message.content)
+    if ctx.message.author not in members:
+        return
+
+    if len(ctx.message.mentions) < 1:
+        await bot.client.say("```\n"
+                             "You didn't mention anyone.\nUsage:"
+                             "\n.[c] [mentioned user] [number of iterations optional]\n```")
+        return
+
+    i = int(i)
+    for member in ctx.message.mentions:
+        prev_channel = member.voice.voice_channel
+        for x in range(0, i):
+            for channel in bot.client.get_all_channels():
+                if channel.type == discord.ChannelType.voice:
+                    await bot.client.move_member(member, channel)
+                    await asyncio.sleep(.2)
+
+    # move the user back to the original channel
+    await bot.client.move_member(member, prev_channel)
+
+
 class Commands:
     def __init__(self, client):
         self.client = client
@@ -38,32 +66,8 @@ class Commands:
         await self.mention(members)
 
     @commands.command(pass_context=True)
-    async def abuse(self, ctx, mention="", i=0):
-        if not isinstance(i, int) or i == 0:
-            i = 1
-
-        members = self.get_favorite_members()
-        print(ctx.message.content)
-        if ctx.message.author not in members:
-            return
-
-        if len(ctx.message.mentions) < 1:
-            await self.client.say("```\n"
-                                  "You didn't mention anyone.\nUsage:"
-                                  "\n.[c] [mentioned user] [number of iterations optional]\n```")
-            return
-
-        i = int(i)
-        for member in ctx.message.mentions:
-            prev_channel = member.voice.voice_channel
-            for x in range(0, i):
-                for channel in self.client.get_all_channels():
-                    if channel.type == discord.ChannelType.voice:
-                        await self.client.move_member(member, channel)
-                        await asyncio.sleep(.2)
-
-        # move the user back to the original channel
-        await self.client.move_member(member, prev_channel)
+    async def abuse(self, ctx, i=0):
+        self.abuse_internal(self.client, ctx, i)
 
     @commands.command(pass_context=True)
     async def move(self, ctx, request):

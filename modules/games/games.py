@@ -5,6 +5,8 @@ import random
 
 from discord.ext import commands
 
+from modules.moderation.moderation import abuse_internal
+
 
 class Commands:
     def __init__(self, client):
@@ -21,8 +23,8 @@ class Commands:
         if r:
             await self.client.say("You were shot. Have fun!")
             txt = ".abuse {} 1".format(ctx.message.author.mention)
-            message = await self.client.say(txt)
-            self.client.process_commands(message)
+            await self.client.say(txt)
+            abuse_internal(self.client, txt, 1)
         else:
             await self.client.say("You're safe!")
 
