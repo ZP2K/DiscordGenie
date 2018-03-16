@@ -24,7 +24,7 @@ class Commands:
             await self.client.say("You were shot. Have fun!")
             txt = ".abuse {} 1".format(ctx.message.author.mention)
             await self.client.say(txt)
-            abuse_internal(self.client, txt, 1)
+            await abuse_internal(self.client, txt, 1)
         else:
             await self.client.say("You're safe!")
 
