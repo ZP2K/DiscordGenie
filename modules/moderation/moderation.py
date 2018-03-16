@@ -32,8 +32,9 @@ async def abuse_internal(bot, message, i: int = 1):
                              "\n.[c] [mentioned user] [number of iterations optional]\n```")
         return
 
-    i = int(i)
-    c = 0
+    if i > 3:
+        i = 3
+
     for member in message.mentions:
         prev_channel = member.voice.voice_channel
         for x in range(0, i):
@@ -41,7 +42,7 @@ async def abuse_internal(bot, message, i: int = 1):
                 if channel.type == discord.ChannelType.voice:
                     await bot.move_member(member, channel)
                     await asyncio.sleep(.2)
-            await asyncio.sleep(1)
+            await asyncio.sleep(.2)
     # move the user back to the original channel
     await bot.move_member(member, prev_channel)
 

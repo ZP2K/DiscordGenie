@@ -22,9 +22,9 @@ class Commands:
         r = random.randint(1, 6)
         if r == 3:
             await self.client.say("You were shot. Have fun!")
-            txt = ".abuse {} 5".format(ctx.message.author.mention)
+            txt = ".abuse {} 3".format(ctx.message.author.mention)
             message = await self.client.say(txt)
-            await abuse_internal(self.client, message, 5)
+            await abuse_internal(self.client, message, 3)
         else:
             await self.client.say("You're safe!")
 
