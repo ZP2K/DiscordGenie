@@ -67,7 +67,7 @@ class Commands:
 
     @commands.command(pass_context=True)
     async def abuse(self, ctx, i=0):
-        self.abuse_internal(self.client, ctx, i)
+        await self.abuse_internal(self.client, ctx, i)
 
     @commands.command(pass_context=True)
     async def move(self, ctx, request):
