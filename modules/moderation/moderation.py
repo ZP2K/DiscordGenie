@@ -8,7 +8,7 @@ from discord.ext import commands
 
 
 def get_favorite_members(bot):
-    members = bot.client.get_all_members()
+    members = bot.get_all_members()
     favorites = []
     for member in members:
         # should be stored in config
@@ -41,11 +41,11 @@ async def abuse_internal(bot, ctx, i):
         for x in range(0, i):
             for channel in bot.get_all_channels():
                 if channel.type == discord.ChannelType.voice:
-                    await bot.client.move_member(member, channel)
+                    await bot.move_member(member, channel)
                     await asyncio.sleep(.2)
 
     # move the user back to the original channel
-    await bot.client.move_member(member, prev_channel)
+    await bot.move_member(member, prev_channel)
 
 
 class Commands:
