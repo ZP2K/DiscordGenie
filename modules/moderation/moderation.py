@@ -20,23 +20,22 @@ def get_favorite_members(bot):
     return favorites
 
 
-async def abuse_internal(bot, ctx, i):
+async def abuse_internal(bot, message, i):
     if not isinstance(i, int) or i == 0:
         i = 1
 
     members = get_favorite_members(bot)
-    print(ctx.message.content)
-    if ctx.message.author not in members:
+    if message.author not in members:
         return
 
-    if len(ctx.message.mentions) < 1:
+    if len(message.mentions) < 1:
         await bot.say("```\n"
                              "You didn't mention anyone.\nUsage:"
                              "\n.[c] [mentioned user] [number of iterations optional]\n```")
         return
 
     i = int(i)
-    for member in ctx.message.mentions:
+    for member in message.mentions:
         prev_channel = member.voice.voice_channel
         for x in range(0, i):
             for channel in bot.get_all_channels():
@@ -68,7 +67,7 @@ class Commands:
 
     @commands.command(pass_context=True)
     async def abuse(self, ctx, mention="", i=0):
-        await abuse_internal(self.client, ctx, i)
+        await abuse_internal(self.client, ctx.message, i)
 
     @commands.command(pass_context=True)
     async def move(self, ctx, request):
