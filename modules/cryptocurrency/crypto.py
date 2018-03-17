@@ -16,11 +16,9 @@ class Commands:
     @commands.command(pass_context=True)
     async def check(self, ctx, request):
         info = json.loads(aws.process("crypto", request))
-        try:
-            info['messasge'][0]
-        except:
-            await self.client.say('```\nUsage: [command] [name]')
-            
+        if info['message']['error']:
+            await self.client.say("Error looking up coin. Do not use symbol.")
+
         message = '```\n{}:\nUSD: {}\nBTC: {}\n24 Hour Change: {}%\n```'.format(
             info['message'][0]['name'],
             info['message'][0]['price_usd'],
