@@ -23,6 +23,7 @@ def get_tasks():
 def set_tasks(request):
     cursor = get_cursor()
     cursor.execute("""
-            INSERT INTO tasks
+            INSERT INTO tasks (service, request)
             VALUES (%s, %s);
-            """, ("dotabuff", request))
+            """,
+                   ("dotabuff", request))
