@@ -14,11 +14,13 @@ def get_info(request):
     if 'error' in info['message']:
         return "error"
 
-    message = '```\n{}:\nUSD: {}\nBTC: {}\n24 Hour Change: {}%\n```'.format(
+    message = '```\n{}:\nUSD: {}\nBTC: {}\n1 Hour Change: {}%\n24 Hour Change: {}%\n7 Day Change: {}%\n```'.format(
         info['message'][0]['name'],
         info['message'][0]['price_usd'],
         info['message'][0]['price_btc'],
-        info['message'][0]['percent_change_24h'])
+        info['message'][0]['percent_change_1h'],
+        info['message'][0]['percent_change_24h'],
+        info['message'][0]['percent_change_7d'])
     return message
 
 
