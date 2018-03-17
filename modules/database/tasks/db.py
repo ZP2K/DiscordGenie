@@ -25,8 +25,5 @@ def set_tasks(request):
     cursor, connect = get_cursor()
     query = "INSERT INTO tasks VALUES (%s, %s);"
     data = ("crypto", request)
-    try:
-        cursor.execute(query, data)
-        connect.commit()
-    except Exception as e:
-        print(e)
+    cursor.execute(query, data)
+    connect.commit()
