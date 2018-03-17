@@ -5,13 +5,15 @@ import discord
 from discord.ext import commands
 
 from config.build_config import read_api_key
+from modules.database.tasks.task_runner import run_tasks
 
 client = commands.Bot(command_prefix='.')
 extensions = ["modules.moderation.moderation",
               "modules.games.games",
               "modules.dotabuff.dotabuff",
               "modules.cryptocurrency.crypto",
-              "modules.database"]
+              "modules.database.watcher.watch",
+              ]
 
 
 @client.event
@@ -31,4 +33,5 @@ if __name__ == "__main__":
             exc = '{}: {}'.format(type(e).__name__, e)
             print('Failed to load extension {}\n{}'.format(extension, exc))
 
+    client.loop.create_task(run_tasks(client))
     client.run(read_api_key())
