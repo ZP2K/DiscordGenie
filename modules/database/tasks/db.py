@@ -10,7 +10,7 @@ def get_cursor():
     connect_str = "dbname='{}' user='{}' host='localhost' password={}".format(dbname, dbuser, dbpass)
     conn = psycopg2.connect(connect_str)
     cursor = conn.cursor()
-    return cursor
+    return cursor, conn
 
 
 def get_tasks():
@@ -21,10 +21,11 @@ def get_tasks():
 
 
 def set_tasks(request):
-    cursor = get_cursor()
+    cursor, connect = get_cursor()
     query = "INSERT INTO tasks VALUES (%s, %s);"
     data = ("crypto", request)
     try:
         cursor.execute(query, data)
+        connect.commit()
     except Exception as e:
         print(e)
