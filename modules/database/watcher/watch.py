@@ -14,9 +14,7 @@ class Commands:
 
     @commands.command(pass_context=True)
     async def watch(self, ctx, service="", request=""):
-        print(service)
-        print(request)
-        if service != "dotabuff" or service != "crypto":
+        if service != "crypto":
             await self.client.say("Invalid service!")
             return
         r = re.search("^(\w+)$", request)
