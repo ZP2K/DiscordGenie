@@ -15,9 +15,9 @@ class Commands:
 
     @commands.command(pass_context=True)
     async def check(self, ctx, request):
-        price = aws.process("crypto", request)
-        d = json.loads(price)
-        print(d)
+        info = json.loads(aws.process("crypto", request))
+        print(info['message'][0]['id'])
+
         # await self.client.say("Price for {} is {}".format(request, price))
 
 
