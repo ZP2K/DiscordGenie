@@ -5,6 +5,8 @@ import discord
 from modules.cryptocurrency.crypto import get_info
 from .db import get_tasks
 
+messages = {}
+
 
 async def run_tasks(client):
     await client.wait_until_ready()
@@ -12,6 +14,11 @@ async def run_tasks(client):
     while not client.is_closed:
         tasks = get_tasks()
         for service, request in tasks:
-            message = get_info(request)
-            await client.send_message(channel, message)
+            text = get_info(request)
+            if request in messages:
+                message = messages[request]
+                await client.edit_message(message, text)
+                return
+            message = await client.send_message(channel, text)
+            messages[request] = message
         await asyncio.sleep(120)
