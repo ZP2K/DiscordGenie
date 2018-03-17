@@ -20,6 +20,7 @@ class Commands:
         r = re.search("^(\w+)$", request)
         if not r:
             await self.client.say("Invalid request")
+            return
         set_tasks(request)
         await self.client.say("Watch request for {} {} added", service, request)
 
