@@ -3,6 +3,7 @@
 # ben@complexitydevelopment.com
 
 import json
+import time
 
 from discord.ext import commands
 
@@ -14,7 +15,8 @@ def get_info(request):
     if 'error' in info['message']:
         return "error"
 
-    message = '```\n{}:\nUSD: {}\nBTC: {}\n1 Hour Change: {}%\n24 Hour Change: {}%\n7 Day Change: {}%\n```'.format(
+    message = '```{}\n{}:\nUSD: {}\nBTC: {}\n1 Hour Change: {}%\n24 Hour Change: {}%\n7 Day Change: {}%\n```'.format(
+        time.ctime(),
         info['message'][0]['name'],
         info['message'][0]['price_usd'],
         info['message'][0]['price_btc'],
