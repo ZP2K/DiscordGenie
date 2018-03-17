@@ -18,7 +18,7 @@ async def run_tasks(client):
             if request in messages:
                 message = messages[request]
                 await client.edit_message(message, text)
-                return
+                continue
             message = await client.send_message(channel, text)
             messages[request] = message
         await asyncio.sleep(120)
