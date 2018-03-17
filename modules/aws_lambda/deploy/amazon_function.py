@@ -1,5 +1,7 @@
 import urllib.request
 
+import coinmarketcap
+
 print('Loading function')
 
 
@@ -8,6 +10,11 @@ def dotabuff(request):
     base_url += request
     print(base_url)
     return base_url
+
+
+def coin_market(request):
+    api = coinmarketcap.Market()
+    return api.ticker(request)
 
 
 def lambda_handler(event, context):
@@ -19,6 +26,11 @@ def lambda_handler(event, context):
         page = fetch_page(url)
         return {
             'message': page
+        }
+    elif event['site'] == "crypto":
+        info = coin_market(event['lookup'])
+        return {
+            'message': info
         }
 
 
