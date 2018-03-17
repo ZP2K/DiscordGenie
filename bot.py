@@ -9,7 +9,8 @@ from config.build_config import read_api_key
 client = commands.Bot(command_prefix='.')
 extensions = ["modules.moderation.moderation",
               "modules.games.games",
-              "modules.dotabuff.dotabuff"]
+              "modules.dotabuff.dotabuff",
+              "modules.cryptocurrency.crypto"]
 
 
 @client.event
