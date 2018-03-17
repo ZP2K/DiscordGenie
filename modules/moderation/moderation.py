@@ -47,6 +47,12 @@ async def abuse_internal(bot, message, i: int = 1):
     await bot.move_member(member, prev_channel)
 
 
+async def clear_internal(bot, channel, count):
+    messages = []
+    async for x in bot.logs_from(channel, limit=count):
+        messages.append(x)
+    await bot.delete_messages(messages)
+
 class Commands:
     def __init__(self, client):
         self.client = client
@@ -131,11 +137,7 @@ class Commands:
             await self.client.say("Request failed! Minimum two messages to delete")
             return
         i = int(i)
-
-        messages = []
-        async for x in self.client.logs_from(ctx.message.channel, limit=i):
-            messages.append(x)
-        await self.client.delete_messages(messages)
+        clear_internal(self.client, ctx.message.channel, i)
 
 
 def setup(client):
