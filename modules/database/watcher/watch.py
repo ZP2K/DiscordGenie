@@ -22,7 +22,7 @@ class Commands:
             await self.client.say("Invalid request")
             return
         set_tasks(request)
-        await self.client.say("Watch request for {} {} added", service, request)
+        await self.client.say("```\nWatch request for Service: {} Request: {} added\n```".format(service, request))
 
 
 def setup(client):
