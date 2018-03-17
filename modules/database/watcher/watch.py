@@ -17,7 +17,7 @@ class Commands:
         print(service)
         print(request)
         if service != "dotabuff" or service != "crypto":
-            await self.client.say("Invalid request!")
+            await self.client.say("Invalid service!")
             return
         r = re.search("^(\w+)$", request)
         if not r:
