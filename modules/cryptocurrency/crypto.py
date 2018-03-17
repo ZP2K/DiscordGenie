@@ -30,7 +30,7 @@ class Commands:
 
     @commands.command(pass_context=True)
     async def check(self, ctx, request):
-        if ctx.message.channel.id != "422504096990494741":
+        if ctx.message.channel.id != "424676030389944320":
             return
         message = get_info(request)
         if message == "error":
