@@ -22,5 +22,5 @@ def get_tasks():
 
 def set_tasks(request):
     cursor = get_cursor()
-    query = "INSERT INTO tasks VALUES ({},{})".format("crypto", request)
+    query = "INSERT INTO tasks VALUES ('{}','{}')".format("crypto", request)
     cursor.execute(query)
