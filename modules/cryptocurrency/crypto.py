@@ -18,6 +18,7 @@ class Commands:
         info = json.loads(aws.process("crypto", request))
         if info['message']['error']:
             await self.client.say("Error looking up coin. Do not use symbol.")
+            return
 
         message = '```\n{}:\nUSD: {}\nBTC: {}\n24 Hour Change: {}%\n```'.format(
             info['message'][0]['name'],
