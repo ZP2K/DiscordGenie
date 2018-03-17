@@ -22,4 +22,9 @@ def get_tasks():
 
 def set_tasks(request):
     cursor = get_cursor()
-    cursor.execute("INSERT INTO tasks VALUES (%s, %s)", ("crypto", request))
+    query = "INSERT INTO tasks VALUES (%s, %s);"
+    data = ("crypto", request)
+    try:
+        cursor.execute(query, data)
+    except Exception as e:
+        print(e)
