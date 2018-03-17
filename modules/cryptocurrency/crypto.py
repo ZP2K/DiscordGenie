@@ -15,6 +15,8 @@ class Commands:
 
     @commands.command(pass_context=True)
     async def check(self, ctx, request):
+        if ctx.message.channel.id != "422504096990494741":
+            return
         info = json.loads(aws.process("crypto", request))
         if 'error' in info['message']:
             await self.client.say("Error looking up coin. Do not use symbol.")
