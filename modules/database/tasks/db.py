@@ -14,9 +14,10 @@ def get_cursor():
 
 
 def get_tasks():
-    cursor = get_cursor()
+    cursor, connect = get_cursor()
     cursor.execute("""SELECT * from tasks""")
     tasks = cursor.fetchall()
+    connect.commit()
     return tasks
 
 
