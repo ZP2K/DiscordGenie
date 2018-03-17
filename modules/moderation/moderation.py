@@ -53,6 +53,7 @@ async def clear_internal(bot, channel, count):
         messages.append(x)
     await bot.delete_messages(messages)
 
+
 class Commands:
     def __init__(self, client):
         self.client = client
@@ -137,7 +138,7 @@ class Commands:
             await self.client.say("Request failed! Minimum two messages to delete")
             return
         i = int(i)
-        clear_internal(self.client, ctx.message.channel, i)
+        await clear_internal(self.client, ctx.message.channel, i)
 
 
 def setup(client):
