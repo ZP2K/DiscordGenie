@@ -27,3 +27,4 @@ def set_tasks(request):
     data = ("crypto", request)
     cursor.execute(query, data)
     connect.commit()
+    print(get_tasks())
