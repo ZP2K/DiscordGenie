@@ -1,7 +1,11 @@
 # Ben Humphrey
 # github.com/complexitydev
 # ben@complexitydevelopment.com
+import re
+
 from discord.ext import commands
+
+from modules.database.tasks.db import set_tasks
 
 
 class Commands:
@@ -13,6 +17,10 @@ class Commands:
         if service != "dotabuff" or service != "crypto":
             await self.client.say("Invalid request!")
             return
+        r = re.search("^(\w+)$", request)
+        if not r:
+            await self.client.say("Invalid request")
+        set_tasks(request)
         await self.client.say("Watch request for {} {} added", service, request)
 
 

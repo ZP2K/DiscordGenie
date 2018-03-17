@@ -3,7 +3,7 @@ import asyncio
 import discord
 
 from modules.cryptocurrency.crypto import get_info
-from .fetch_tasks import get_tasks
+from .db import get_tasks
 
 
 async def run_tasks(client):
@@ -14,4 +14,4 @@ async def run_tasks(client):
         for service, request in tasks:
             message = get_info(request)
             await client.send_message(channel, message)
-        await asyncio.sleep(60)
+        await asyncio.sleep(65)
