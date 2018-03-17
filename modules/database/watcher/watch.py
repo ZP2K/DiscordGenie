@@ -15,6 +15,7 @@ class Commands:
     @commands.command(pass_context=True)
     async def watch(self, ctx, service="", request=""):
         if ctx.message.channel.id != "424676030389944320":
+            await self.client.say("Test")
             return
         if service != "crypto":
             await self.client.say("Invalid service!")
