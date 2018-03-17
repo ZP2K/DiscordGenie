@@ -2,6 +2,8 @@
 # github.com/complexitydev
 # ben@complexitydevelopment.com
 
+import json
+
 from discord.ext import commands
 
 from modules.aws_lambda import aws
@@ -14,7 +16,9 @@ class Commands:
     @commands.command(pass_context=True)
     async def check(self, ctx, request):
         price = aws.process("crypto", request)
-        await self.client.say("Price for {} is {}".format(request, price))
+        d = json.loads(price)
+        print(d)
+        # await self.client.say("Price for {} is {}".format(request, price))
 
 
 def setup(client):
