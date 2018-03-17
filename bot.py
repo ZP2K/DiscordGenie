@@ -10,7 +10,7 @@ client = commands.Bot(command_prefix='.')
 extensions = ["modules.moderation.moderation",
               "modules.games.games",
               "modules.dotabuff.dotabuff",
-              "modules.cryptocurrency.crypto"
+              "modules.cryptocurrency.crypto",
               "modules.database"]
 
 
