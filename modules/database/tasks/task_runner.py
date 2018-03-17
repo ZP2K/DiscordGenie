@@ -14,4 +14,4 @@ async def run_tasks(client):
         for service, request in tasks:
             message = get_info(request)
             await client.send_message(channel, message)
-        await asyncio.sleep(65)
+        await asyncio.sleep(120)
