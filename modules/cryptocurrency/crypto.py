@@ -31,7 +31,7 @@ def get_info(request):
 
 
 def get_coin_list():
-    info = json.loads(aws.process("lookup", "coin"))
+    info = aws.process("lookup", "coin")
     print(info)
 
 class Commands:
