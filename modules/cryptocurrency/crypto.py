@@ -48,7 +48,7 @@ class Commands:
         info = get_info(request)
         if info == "error":
             await self.client.say("Error processing. Don't use the symbol name!")
-        total = int(info['message'][0]['price_usd']) * int(amount)
+        total = float(info['message'][0]['price_usd']) * int(amount)
         message = "```\n{} {} : ${}\n```".format(amount, request, total)
         await self.client.say(message)
 
