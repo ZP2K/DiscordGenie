@@ -38,7 +38,7 @@ def get_coin_list():
 class Commands:
     def __init__(self, client):
         self.client = client
-        self.coin_list = json.loads(get_coin_list())
+        self.coin_list = get_coin_list()
 
     @commands.command(pass_context=True)
     async def check(self, ctx, request):
