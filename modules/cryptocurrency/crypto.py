@@ -36,8 +36,6 @@ def get_coin_list():
 
 
 class Commands:
-    coin_list = {}
-
     def __init__(self, client):
         self.client = client
         self.coin_list = json.loads(get_coin_list())
