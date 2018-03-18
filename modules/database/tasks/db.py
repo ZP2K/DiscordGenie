@@ -27,3 +27,19 @@ def set_tasks(request):
     data = ("crypto", request)
     cursor.execute(query, data)
     connect.commit()
+
+
+def set_star():
+    cursor, connect = get_cursor()
+    query = "UPDATE MEMESTARS SET count = count + 1 WHERE NAME='bot';"
+    cursor.execute(query)
+    connect.commit()
+
+
+def get_stars():
+    cursor, connect = get_cursor()
+    query = "SELECT count from MEMESTARS where name = 'bot'"
+    cursor.execute(query)
+    count = cursor.fetchone()[0]
+    connect.commit()
+    return count

@@ -5,6 +5,7 @@ import random
 
 from discord.ext import commands
 
+from modules.database.tasks.db import get_stars, set_star
 from modules.moderation.moderation import abuse_internal
 
 
@@ -27,6 +28,12 @@ class Commands:
             await abuse_internal(self.client, message, 3)
         else:
             await self.client.say("You're safe!")
+
+    @commands.command(pass_context=True)
+    async def goodbot(self, ctx):
+        set_star()
+        count = get_stars()
+        await self.client.say("```\nI've been a good bot!\nGood Boy Points: {}\n```".format(count))
 
 
 def setup(client):
