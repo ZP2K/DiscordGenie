@@ -17,5 +17,5 @@ def process(service, request):
         LogType='None',
         Payload=json.dumps(args)
     )
-    data = response['Payload'].read().decode('unicode_escape')
+    data = response['Payload'].read().decode()
     return data

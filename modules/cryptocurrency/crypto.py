@@ -32,7 +32,7 @@ def get_info(request):
 
 def get_coin_list():
     info = json.loads(aws.process("lookup", "coin"))
-    return info['message']
+    return info
 
 
 class Commands:
