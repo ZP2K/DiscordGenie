@@ -2,7 +2,7 @@ import asyncio
 
 import discord
 
-from modules.cryptocurrency.crypto import get_info
+from modules.cryptocurrency.crypto import get_info, get_message
 from modules.moderation.moderation import clear_internal
 from .db import get_tasks
 
@@ -16,7 +16,8 @@ async def run_tasks(client):
     while not client.is_closed:
         tasks = get_tasks()
         for service, request in tasks:
-            text = get_info(request)
+            info = get_info(request)
+            text = get_message(info)
             if request in messages:
                 message = messages[request]
                 await client.edit_message(message, text)
