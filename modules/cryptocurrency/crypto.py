@@ -3,6 +3,7 @@
 # ben@complexitydevelopment.com
 
 import json
+import re
 import time
 
 from discord.ext import commands
@@ -29,12 +30,23 @@ def get_info(request):
     return info
 
 
+def get_coin_list():
+    info = json.loads(aws.process("lookup", ""))
+    return info
+
+
 class Commands:
+    coin_list = {}
+
     def __init__(self, client):
         self.client = client
+        self.coin_list = json.loads(get_coin_list())
 
     @commands.command(pass_context=True)
     async def check(self, ctx, request):
+        r = re.search("[A-Z]+", request)
+        if r:
+            request = self.coin_list['Data'][request]['CoinName']
         if ctx.message.channel.id != "424676030389944320":
             return
         info = get_info(request)
@@ -45,6 +57,9 @@ class Commands:
 
     @commands.command(pass_context=True)
     async def convert(self, ctx, request, amount):
+        r = re.search("[A-Z]+", request)
+        if r:
+            request = self.coin_list['Data'][request]['CoinName']
         info = get_info(request)
         if info == "error":
             await self.client.say("Error processing. Don't use the symbol name!")
