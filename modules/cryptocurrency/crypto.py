@@ -32,7 +32,8 @@ def get_info(request):
 
 def get_coin_list():
     info = aws.process("lookup", "coin")
-    print(info)
+    return info
+
 
 class Commands:
     def __init__(self, client):
