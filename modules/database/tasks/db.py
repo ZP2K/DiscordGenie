@@ -41,5 +41,21 @@ def get_stars():
     query = "SELECT count from MEMESTARS where name = 'bot'"
     cursor.execute(query)
     count = cursor.fetchone()[0]
-    connect.commit()
     return count
+
+
+def get_user(user):
+    cursor, connect = get_cursor()
+    query = "SELECT rank from USERS where id='%s'"
+    cursor.execute(query, user)
+    rank = cursor.fetchone()[0]
+    connect.commit()
+    return rank
+
+
+def set_user(user, role):
+    cursor, connect = get_cursor()
+    query = "INSERT INTO USERS VALUES (%s, %d);".format(user, role)
+    cursor.execute(query, user, role)
+    connect.commit()
+    return 1

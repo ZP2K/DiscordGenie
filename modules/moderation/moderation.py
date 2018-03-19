@@ -1,69 +1,14 @@
 # Ben Humphrey
 # github.com/complexitydev
 # ben@complexitydevelopment.com
-import asyncio
-
-import discord
 from discord.ext import commands
 
-
-def get_favorite_members(bot):
-    members = bot.get_all_members()
-    favorites = []
-    for member in members:
-        # should be stored in config
-        if member.name.startswith("Vice") \
-                or member.name.startswith("heyo") \
-                or member.name.startswith("ben") \
-                or member.name.startswith("major") \
-                or member.name.startswith("Ben"):
-            favorites.append(member)
-    return favorites
-
-
-async def abuse_internal(bot, message, i: int = 1):
-    members = get_favorite_members(bot)
-    if message.author not in members:
-        return
-
-    if len(message.mentions) < 1:
-        await bot.say("```\n"
-                             "You didn't mention anyone.\nUsage:"
-                             "\n.[c] [mentioned user] [number of iterations optional]\n```")
-        return
-
-    if i > 3:
-        i = 3
-
-    for member in message.mentions:
-        prev_channel = member.voice.voice_channel
-        for x in range(0, i):
-            for channel in bot.get_all_channels():
-                if channel.type == discord.ChannelType.voice:
-                    await bot.move_member(member, channel)
-                    await asyncio.sleep(.2)
-            await asyncio.sleep(.2)
-    # move the user back to the original channel
-    await bot.move_member(member, prev_channel)
-
-
-async def clear_internal(bot, channel, count):
-    messages = []
-    async for x in bot.logs_from(channel, limit=count):
-        messages.append(x)
-    await bot.delete_messages(messages)
+from .mod_helpers import *
 
 
 class Commands:
     def __init__(self, client):
         self.client = client
-
-    async def mention(self, users):
-        to_mention = []
-        for member in users:
-            to_mention.append(member.mention)
-        text = ' '.join(to_mention)
-        await self.client.say(text)
 
     @commands.command(pass_context=True)
     async def assemble(self, ctx):
@@ -139,6 +84,17 @@ class Commands:
             return
         i = int(i)
         await clear_internal(self.client, ctx.message.channel, i)
+
+    @commands.command(pass_context=True)
+    async def add(self, ctx, rank):
+        await self.client.say("{}".format(ctx.message.author.id))
+        req = await get_user_pos(ctx.message.author.id)
+        if req != 4:
+            await self.client.say("You are not authorized!")
+            return
+        for member in ctx.message.mentions:
+            await set_user_pos(member.id, rank)
+            await self.client.say("Added user {}".format(member.name))
 
 
 def setup(client):
