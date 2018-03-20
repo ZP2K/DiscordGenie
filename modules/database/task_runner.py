@@ -1,10 +1,13 @@
+# Ben Humphrey
+# github.com/complexitydev
+# ben@complexitydevelopment.com
 import asyncio
 
 import discord
 
 from modules.cryptocurrency.crypto import get_info, get_message
+from modules.database.db import get_tasks
 from modules.moderation.moderation import clear_internal
-from .db import get_tasks
 
 messages = {}
 

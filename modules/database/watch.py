@@ -6,7 +6,7 @@ import re
 from discord.ext import commands
 
 from modules.cryptocurrency.crypto import get_coin_list
-from modules.database.tasks.db import set_tasks
+from modules.database.db import set_tasks
 
 
 class Commands:

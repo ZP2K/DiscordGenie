@@ -1,38 +1,11 @@
 # Ben Humphrey
 # github.com/complexitydev
 # ben@complexitydevelopment.com
-
-import json
 import re
-import time
 
 from discord.ext import commands
 
-from modules.aws_lambda import aws
-
-
-def get_message(info):
-    message = '```{}\n{}:\nUSD: {}\nBTC: {}\n1 Hour Change: {}%\n24 Hour Change: {}%\n7 Day Change: {}%\n```'.format(
-        time.ctime(),
-        info['message'][0]['name'],
-        info['message'][0]['price_usd'],
-        info['message'][0]['price_btc'],
-        info['message'][0]['percent_change_1h'],
-        info['message'][0]['percent_change_24h'],
-        info['message'][0]['percent_change_7d'])
-    return message
-
-
-def get_info(request):
-    info = json.loads(aws.process("crypto", request))
-    if 'error' in info['message']:
-        return "error"
-    return info
-
-
-def get_coin_list():
-    info = json.loads(aws.process("coin", "coin"))
-    return info
+from .crypto_helpers import *
 
 
 class Commands:
@@ -56,10 +29,10 @@ class Commands:
     @commands.command(pass_context=True)
     async def convert(self, ctx, request, amount):
         r = re.search("[A-Z]+", request)
-        if r:
+        if r and request in self.coin_list['Data']:
             request = self.coin_list['Data'][request]['CoinName']
         info = get_info(request)
-        if info == "error":
+        if not info:
             await self.client.say("Error processing. Don't use the symbol name!")
         total = float(info['message'][0]['price_usd']) * float(amount)
         message = "```\n{} {} : ${}\n```".format(amount, request, total)

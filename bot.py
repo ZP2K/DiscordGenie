@@ -5,24 +5,21 @@ import discord
 from discord.ext import commands
 
 from config.build_config import read_api_key
-from modules.database.tasks.task_runner import run_tasks
+from modules.database.task_runner import run_tasks
 
 client = commands.Bot(command_prefix='.')
 extensions = ["modules.moderation.moderation",
               "modules.games.games",
               "modules.dotabuff.dotabuff",
               "modules.cryptocurrency.crypto",
-              "modules.database.watcher.watch",
+              "modules.database.watch",
               ]
 
 
 @client.event
 async def on_ready():
-    print('Logged in as')
-    print(client.user.name)
-    print('-------------')
+    print("Client has been loaded!")
     await client.change_presence(game=discord.Game(name="Ready for commands!"), afk=False)
-    print('Ready for commands')
 
 if __name__ == "__main__":
     for extension in extensions:

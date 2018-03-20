@@ -1,8 +1,10 @@
 # Ben Humphrey
 # github.com/complexitydev
 # ben@complexitydevelopment.com
-from discord.ext import commands
+import re
 
+from modules.custom_checks.auth import *
+from modules.database.db import set_user, get_all_users
 from .mod_helpers import *
 
 
@@ -10,27 +12,33 @@ class Commands:
     def __init__(self, client):
         self.client = client
 
+    @auth_check()
     @commands.command(pass_context=True)
     async def assemble(self, ctx):
-        members = get_favorite_members(self.client)
-        if ctx.message.author not in members:
-            return
-        await self.mention(members)
+        members = await get_favorite_members(ctx)
+        if ctx.message.author in members:
+            members.remove(ctx.message.author)
+        await mention_users(self.client, members)
 
+    @auth_check()
     @commands.command(pass_context=True)
-    async def abuse(self, ctx, mention="", i=0):
+    async def abuse(self, ctx, mention, i=0):
         await abuse_internal(self.client, ctx.message, i)
 
+    @auth_check()
     @commands.command(pass_context=True)
-    async def move(self, ctx, request):
+    async def move(self, ctx, group, request):
         request = request.lower()
-        members = get_favorite_members(self.client)
+        members = []
+        if group == "x":
+            members = await get_favorite_members(ctx)
+        else:
+            r = re.search("<@(\d+)>", group)
+            if not r:
+                return
+            members.append(ctx.message.server.get_member(r.group(1)))
         channels = self.client.get_all_channels()
 
-        if ctx.message.author not in members:
-            return
-
-        target = None
         # allow partial matches, not efficient
         for channel in channels:
             if request in channel.name.lower():
@@ -39,62 +47,58 @@ class Commands:
         for member in members:
             await self.client.move_member(member, target)
 
+    @auth_check()
     @commands.command(pass_context=True)
     async def kick(self, ctx):
-        global_mods = ["95321801344679936", "95582503061954560", "177934831416639488"]
-        protected = ["95321801344679936", "95582503061954560"]
-
-        if ctx.message.author.id not in global_mods:
-            await self.client.say("You are not permitted!")
-            return
         if not ctx.message.mentions:
             return
-
         for member in ctx.message.mentions:
-            if member.id in protected and ctx.message.author.id != "95321801344679936":
-                await self.client.say("Only protected users can kick other global mods!")
+            if get_user(member.id) == get_user(ctx.message.author):
+                await self.client.say("Only super users can kick other global mods!")
                 continue
             await self.client.kick(member)
             await self.client.say("Kicked {}! Request={}".format(member.name, ctx.message.author.name))
 
+    @super_check()
     @commands.command(pass_context=True)
     async def ban(self, ctx):
-        if ctx.message.author.id != "95321801344679936":
-            return
-
         for member in ctx.message.mentions:
             await self.client.ban(member)
             await self.client.say("Banned {}! Request={}".format(member.name, ctx.message.author.name))
 
+    @auth_check()
     @commands.command(pass_context=True)
     async def unban(self, ctx):
-        if ctx.message.author.id != "95321801344679936":
-            return
-
         for member in ctx.message.mentions:
             await self.client.unban(member)
             await self.client.say("Unbanned {}! Request={}".format(member.name, ctx.message.author.name))
-    
+
+    @super_check()
     @commands.command(pass_context=True)
-    async def clear(self, ctx, i):
-        if ctx.message.author.id != "95321801344679936":
-            return
-        if not i or int(i) <= 1:
-            await self.client.say("Request failed! Minimum two messages to delete")
-            return
+    async def clear(self, ctx, i=2):
         i = int(i)
         await clear_internal(self.client, ctx.message.channel, i)
 
+    @super_check()
     @commands.command(pass_context=True)
-    async def add(self, ctx, rank):
-        await self.client.say("{}".format(ctx.message.author.id))
-        req = await get_user_pos(ctx.message.author.id)
-        if req != 4:
-            await self.client.say("You are not authorized!")
-            return
+    async def add(self, ctx, mention, rank):
         for member in ctx.message.mentions:
-            await set_user_pos(member.id, rank)
+            r = set_user(member.id, rank)
+            if not r:
+                await self.client.say("Failed to add user!")
+                return
             await self.client.say("Added user {}".format(member.name))
+
+    @super_check()
+    @commands.command(pass_context=True)
+    async def get_users(self, ctx):
+        members = get_all_users()
+        text = "```\n"
+        for name, rank in members:
+            member = ctx.message.server.get_member(name)
+            text += "{} : {}\n".format(member, rank)
+        text += "```\n"
+        await self.client.say(text)
 
 
 def setup(client):

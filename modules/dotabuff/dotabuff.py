@@ -11,7 +11,7 @@ from discord.ext import commands
 from modules.aws_lambda import aws
 
 
-def parse_heroes(self, page):
+def parse_heroes(page):
     soup = BeautifulSoup(page)
     rows = soup.find_all('tr')
     table = {}
@@ -48,7 +48,7 @@ class Commands:
             await self.client.say(usage)
             return
 
-        output = self.parse_heroes(aws.process("dotabuff", request))
+        output = parse_heroes(aws.process("dotabuff", request))
         await self.client.say(output)
 
 

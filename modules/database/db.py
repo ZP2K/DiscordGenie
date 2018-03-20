@@ -1,3 +1,6 @@
+# Ben Humphrey
+# github.com/complexitydev
+# ben@complexitydevelopment.com
 import psycopg2
 
 import config.build_config as config
@@ -44,18 +47,43 @@ def get_stars():
     return count
 
 
-def get_user(user):
+def get_user(user: str) -> int:
     cursor, connect = get_cursor()
-    query = "SELECT rank from USERS where id='%s'"
-    cursor.execute(query, user)
+    query = "SELECT rank from USERS where id='{}'".format(user)
+    print(query)
+
+    cursor.execute(query)
+    if not cursor.rowcount:
+        return False
     rank = cursor.fetchone()[0]
     connect.commit()
     return rank
 
 
 def set_user(user, role):
+    r = get_user(user)
+    if r:
+        return False
     cursor, connect = get_cursor()
-    query = "INSERT INTO USERS VALUES (%s, %d);".format(user, role)
-    cursor.execute(query, user, role)
+    query = "INSERT INTO USERS VALUES (%s, %s);"
+    data = (user, int(role))
+    cursor.execute(query, data)
     connect.commit()
     return 1
+
+
+def get_all_users():
+    cursor, connect = get_cursor()
+    query = "SELECT * FROM USERS"
+    cursor.execute(query)
+    users = cursor.fetchall()
+    return users
+
+
+def get_users_by_rank(rank):
+    cursor, connect = get_cursor()
+    query = "SELECT id from USERS where rank>={}".format(rank)
+    print(query)
+    cursor.execute(query)
+    users = cursor.fetchall()
+    return users

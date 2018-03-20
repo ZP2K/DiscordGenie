@@ -2,10 +2,19 @@ import asyncio
 
 import discord
 
-from modules.database.tasks.db import set_user
+from modules.database.db import *
 
 
-async def mention(bot, users):
+async def get_favorite_members(ctx):
+    server = ctx.message.server
+    ids = get_users_by_rank(3)
+    members = list()
+    for n in ids:
+        members.append(server.get_member(n[0]))
+    return members
+
+
+async def mention_users(bot, users):
     to_mention = []
     for member in users:
         to_mention.append(member.mention)
@@ -13,25 +22,7 @@ async def mention(bot, users):
     await bot.say(text)
 
 
-def get_favorite_members(bot):
-    members = bot.get_all_members()
-    favorites = []
-    for member in members:
-        # should be stored in config
-        if member.name.startswith("Vice") \
-                or member.name.startswith("heyo") \
-                or member.name.startswith("ben") \
-                or member.name.startswith("major") \
-                or member.name.startswith("Ben"):
-            favorites.append(member)
-    return favorites
-
-
 async def abuse_internal(bot, message, i: int = 1):
-    members = get_favorite_members(bot)
-    if message.author not in members:
-        return
-
     if len(message.mentions) < 1:
         await bot.say("```\n"
                       "You didn't mention anyone.\nUsage:"
@@ -49,8 +40,8 @@ async def abuse_internal(bot, message, i: int = 1):
                     await bot.move_member(member, channel)
                     await asyncio.sleep(.2)
             await asyncio.sleep(.2)
-    # move the user back to the original channel
-    await bot.move_member(member, prev_channel)
+        # move the user back to the original channel
+        await bot.move_member(member, prev_channel)
 
 
 async def clear_internal(bot, channel, count):
@@ -60,9 +51,3 @@ async def clear_internal(bot, channel, count):
     await bot.delete_messages(messages)
 
 
-async def get_user_pos(user):
-    return get_user_pos(user)
-
-
-async def set_user_pos(user, role):
-    set_user(user, role)
