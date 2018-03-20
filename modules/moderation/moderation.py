@@ -4,7 +4,6 @@
 import re
 
 from modules.custom_checks.auth import *
-from modules.database.db import set_user, get_all_users
 from .mod_helpers import *
 
 
