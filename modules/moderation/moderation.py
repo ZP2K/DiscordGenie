@@ -21,7 +21,7 @@ class Commands:
 
     @auth_check()
     @commands.command(pass_context=True)
-    async def abuse(self, ctx, mention, i=0):
+    async def abuse(self, ctx, mention, i=1):
         await abuse_internal(self.client, ctx.message, i)
 
     @auth_check()
