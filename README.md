@@ -9,7 +9,6 @@ A discord bot for my personal channel written in python using discord.py. This i
 * Create Dotabuff API and Integrate (partial: winrate check added)
 * Play Audio
 * Graphite & Grafana Integration
-* Database for favorite users, roles, etc
 
 [![Status](https://img.shields.io/badge/status-completed-green.svg)](https://github.com/complexitydev/DiscordGenesis)
 * Moderation Commands (abuse, assemble, ban, clear, kick, move, unban)
@@ -17,3 +16,4 @@ A discord bot for my personal channel written in python using discord.py. This i
 * Dotabuff Winrate Fetch
 * Task database
 * Cryptocurrency information
+* Database for favorite users, roles, etc
