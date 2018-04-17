@@ -35,6 +35,11 @@ class Commands:
         count = get_stars()
         await self.client.say("```\nI've been a good bot!\nGood Boy Points: {}\n```".format(count))
 
+    @commands.command(name='.', pass_context=True)
+    async def code(self, ctx):
+        await self.client.say("```\n{}\n```".format(ctx.message.clean_content[3:]))
+        await self.client.delete_message(ctx.message)
+
 
 def setup(client):
     client.add_cog(Commands(client))
