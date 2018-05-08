@@ -6,6 +6,9 @@ import psycopg2
 import config.build_config as config
 
 
+# i'll redo this eventually I guess, consider all of this deprecated for dbnew
+
+
 def get_cursor():
     dbname = config.read_dbname()
     dbuser = config.read_dbuser()
@@ -30,6 +33,29 @@ def set_tasks(request):
     data = ("crypto", request)
     cursor.execute(query, data)
     connect.commit()
+
+
+def set_user_stars(user):
+    cursor, connect = get_cursor()
+    query = "UPDATE USERS SET stars = stars + 1 WHERE id='{}'".format(user)
+    cursor.execute(query)
+    connect.commit()
+
+
+def take_user_stars(user):
+    cursor, connect = get_cursor()
+    query = "UPDATE USERS SET stars = stars - 1 WHERE id='{}'".format(user)
+    cursor.execute(query)
+    connect.commit()
+
+
+def get_user_stars(user):
+    cursor, connect = get_cursor()
+    query = "SELECT stars from USERS where id='{}'".format(user)
+    cursor.execute(query)
+    stars = cursor.fetchone()[0]
+    connect.commit()
+    return stars
 
 
 def set_star():
@@ -72,11 +98,48 @@ def set_user(user, role):
     return 1
 
 
+def set_user_count(user):
+    cursor, connect = get_cursor()
+    query = "UPDATE USERS SET message_count = message_count + 1 WHERE id='{}'".format(user)
+    print(query)
+    cursor.execute(query)
+    connect.commit()
+
+
+def set_user_time(age, user):
+    cursor, connect = get_cursor()
+    query = "UPDATE USERS SET time = time + {} WHERE id='{}'".format(age, user)
+    print(query)
+    cursor.execute(query)
+    connect.commit()
+
+
+def get_user_time(user):
+    cursor, connect = get_cursor()
+    query = "SELECT time from USERS where id='{}'".format(user)
+    print(query)
+    cursor.execute(query)
+    time = cursor.fetchone()[0]
+    connect.commit()
+    return time
+
+
+def get_user_count(user):
+    cursor, connect = get_cursor()
+    query = "SELECT message_count from USERS where id='{}'".format(user)
+    print(query)
+    cursor.execute(query)
+    count = cursor.fetchone()[0]
+    connect.commit()
+    return count
+
+
 def get_all_users():
     cursor, connect = get_cursor()
     query = "SELECT * FROM USERS"
     cursor.execute(query)
     users = cursor.fetchall()
+    print(users)
     return users
 
 

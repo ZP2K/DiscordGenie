@@ -51,3 +51,19 @@ async def clear_internal(bot, channel, count):
     await bot.delete_messages(messages)
 
 
+async def get_record_holders(members):
+    s_temp = [None, 0]
+    s_t = [None, 0]
+    s_c = [None, 0]
+    for n, r, s, c, t in members:
+        print(c)
+        if s > s_temp[1]:
+            s_temp[0] = n
+            s_temp[1] = s
+        if t > s_t[1]:
+            s_t[0] = n
+            s_t[1] = t
+        if c > s_c[1]:
+            s_c[0] = n
+            s_c[1] = c
+    return s_temp, s_t, s_c

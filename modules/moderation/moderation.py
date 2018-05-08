@@ -1,6 +1,7 @@
 # Ben Humphrey
 # github.com/complexitydev
 # ben@complexitydevelopment.com
+import datetime
 import re
 
 from modules.custom_checks.auth import *
@@ -88,16 +89,64 @@ class Commands:
                 return
             await self.client.say("Added user {}".format(member.name))
 
-    @super_check()
     @commands.command(pass_context=True)
-    async def get_users(self, ctx):
+    async def allstats(self, ctx):
         members = get_all_users()
-        text = "```\n"
-        for name, rank in members:
+        max_star, max_time, max_count = await get_record_holders(members)
+        text = "```ml\n"
+        text += "{:<18}{:<10}{:<10}{:<10}{:<10}".format("Name", "Rank", "Stars", "Count", "Time")
+        text += "{}".format('-' * 58)
+        for name, rank, stars, message_count, time in members:
             member = ctx.message.server.get_member(name)
-            text += "{} : {}\n".format(member, rank)
+            time = str(datetime.timedelta(seconds=time))
+            if name is max_star[0]:
+                stars = "{}*".format(stars)
+
+            if name is max_time[0]:
+                time = "{}*".format(time)
+
+            if name is max_count[0]:
+                message_count = "{}*".format(message_count)
+
+            if member.nick:
+                name = member.nick
+            else:
+                name = member.name
+            text += "{:<18}{:<10}{:<10}{:<10}{:<10}\n".format(name, rank, stars, message_count, time)
         text += "```\n"
         await self.client.say(text)
+
+    @super_check()
+    @commands.command(pass_context=True)
+    async def award_credits(self, ctx, mention):
+        for member in ctx.message.mentions:
+            set_user_stars(member.id)
+
+    @super_check()
+    @commands.command(pass_context=True)
+    async def take_credits(self, ctx, mention):
+        for member in ctx.message.mentions:
+            take_user_stars(member.id)
+
+    @commands.command(pass_context=True)
+    async def stats(self, ctx):
+        count = get_user_count(ctx.message.author.id)
+        time = get_user_time(ctx.message.author.id)
+        time = str(datetime.timedelta(seconds=time))
+        text = "```\n"
+        text += "You have posted {} time(s) and spent {} in Safe Space\n".format(count, time)
+        text += "```\n"
+        await self.client.say(text)
+
+    @super_check()
+    @commands.command(pass_context=True)
+    async def sync(self, ctx):
+        await self.client.say("Now Syncing, this may take awhile but you already know that ben you fucking idiot")
+        count = 0
+        async for x in self.client.logs_from(ctx.message.channel, limit=500000):
+            set_user_count(x.author.id)
+            count += 1
+        await self.client.say("Synced {} messages".format(count))
 
 
 def setup(client):
