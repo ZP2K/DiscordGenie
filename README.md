@@ -8,6 +8,8 @@ A discord bot for my personal channel written in python using discord.py. This i
 [![Status](https://img.shields.io/badge/status-in%20progress-red.svg)](https://github.com/complexitydev/DiscordGenesis)
 * Create Dotabuff API and Integrate (partial: winrate check added)
 * Graphite & Grafana Integration
+* Code compiling and output
+* Audio Transcribing
 
 [![Status](https://img.shields.io/badge/status-completed-green.svg)](https://github.com/complexitydev/DiscordGenesis)
 * Moderation Commands (abuse, assemble, ban, clear, kick, move, unban)
