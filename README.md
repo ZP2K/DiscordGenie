@@ -7,7 +7,6 @@ A discord bot for my personal channel written in python using discord.py. This i
 
 [![Status](https://img.shields.io/badge/status-in%20progress-red.svg)](https://github.com/complexitydev/DiscordGenesis)
 * Create Dotabuff API and Integrate (partial: winrate check added)
-* Play Audio
 * Graphite & Grafana Integration
 
 [![Status](https://img.shields.io/badge/status-completed-green.svg)](https://github.com/complexitydev/DiscordGenesis)
@@ -17,3 +16,5 @@ A discord bot for my personal channel written in python using discord.py. This i
 * Task database
 * Cryptocurrency information
 * Database for favorite users, roles, etc
+* Play Audio
+
