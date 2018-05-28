@@ -1,80 +1,44 @@
 # Ben Humphrey
 # github.com/complexitydev
 # ben@complexitydevelopment.com
-import asyncio
+import datetime
+import re
 
-import discord
-from discord.ext import commands
+from modules.custom_checks.auth import *
+from .mod_helpers import *
 
 
 class Commands:
     def __init__(self, client):
         self.client = client
 
-    async def mention(self, users):
-        to_mention = []
-        for member in users:
-            to_mention.append(member.mention)
-        text = ' '.join(to_mention)
-        await self.client.say(text)
-
-    def get_favorite_members(self):
-        members = self.client.get_all_members()
-        favorites = []
-        for member in members:
-            # should be stored in config
-            if member.name.startswith("Vice") \
-                    or member.name.startswith("heyo") \
-                    or member.name.startswith("ben") \
-                    or member.name.startswith("major"):
-                favorites.append(member)
-        return favorites
-
+    @auth_check()
     @commands.command(pass_context=True)
     async def assemble(self, ctx):
-        members = self.get_favorite_members()
-        if ctx.message.author not in members:
-            return
-        await self.mention(members)
+        members = await get_favorite_members(ctx)
+        if ctx.message.author in members:
+            members.remove(ctx.message.author)
+        await mention_users(self.client, members)
 
+    @auth_check()
     @commands.command(pass_context=True)
-    async def abuse(self, ctx, mention="", i=0):
-        if not isinstance(i, int) or i == 0:
-            i = 1
+    async def abuse(self, ctx, mention, i=1):
+        await abuse_internal(self.client, ctx.message, i)
 
-        members = self.get_favorite_members()
-
-        if ctx.message.author not in members:
-            return
-
-        if len(ctx.message.mentions) < 1:
-            await self.client.say("```\n"
-                                  "You didn't mention anyone.\nUsage:"
-                                  "\n.[c] [mentioned user] [number of iterations optional]\n```")
-            return
-
-        i = int(i)
-        for member in ctx.message.mentions:
-            prev_channel = member.voice.voice_channel
-            for x in range(0, i):
-                for channel in self.client.get_all_channels():
-                    if channel.type == discord.ChannelType.voice:
-                        await self.client.move_member(member, channel)
-                        await asyncio.sleep(.2)
-
-        # move the user back to the original channel
-        await self.client.move_member(member, prev_channel)
-
+    @auth_check()
     @commands.command(pass_context=True)
-    async def move(self, ctx, request):
+    async def move(self, ctx, group, request):
         request = request.lower()
-        members = self.get_favorite_members()
+        members = []
+        if group == "x":
+            members = await get_favorite_members(ctx)
+        else:
+            r = re.search("<@(\d+)>", group)
+            if not r:
+                return
+            members.append(ctx.message.server.get_member(r.group(1)))
         channels = self.client.get_all_channels()
 
-        if ctx.message.author not in members:
-            return
-
-        target = None
         # allow partial matches, not efficient
         for channel in channels:
             if request in channel.name.lower():
@@ -83,55 +47,106 @@ class Commands:
         for member in members:
             await self.client.move_member(member, target)
 
+    @auth_check()
     @commands.command(pass_context=True)
     async def kick(self, ctx):
-        global_mods = ["95321801344679936", "95582503061954560", "177934831416639488"]
-        protected = ["95321801344679936", "95582503061954560"]
-
-        if ctx.message.author.id not in global_mods:
-            await self.client.say("You are not permitted!")
-            return
         if not ctx.message.mentions:
             return
-
         for member in ctx.message.mentions:
-            if member.id in protected and ctx.message.author.id != "95321801344679936":
-                await self.client.say("Only protected users can kick other global mods!")
+            if get_user(member.id) == get_user(ctx.message.author):
+                await self.client.say("Only super users can kick other global mods!")
                 continue
             await self.client.kick(member)
             await self.client.say("Kicked {}! Request={}".format(member.name, ctx.message.author.name))
 
+    @super_check()
     @commands.command(pass_context=True)
     async def ban(self, ctx):
-        if ctx.message.author.id != "95321801344679936":
-            return
-
         for member in ctx.message.mentions:
             await self.client.ban(member)
             await self.client.say("Banned {}! Request={}".format(member.name, ctx.message.author.name))
 
+    @auth_check()
     @commands.command(pass_context=True)
     async def unban(self, ctx):
-        if ctx.message.author.id != "95321801344679936":
-            return
-
         for member in ctx.message.mentions:
             await self.client.unban(member)
             await self.client.say("Unbanned {}! Request={}".format(member.name, ctx.message.author.name))
-    
-    @commands.command(pass_context=True)
-    async def clear(self, ctx, i):
-        if ctx.message.author.id != "95321801344679936":
-            return
-        if not i or int(i) <= 1:
-            await self.client.say("Request failed! Minimum two messages to delete")
-            return
-        i = int(i)
 
-        messages = []
-        async for x in self.client.logs_from(ctx.message.channel, limit=i):
-            messages.append(x)
-        await self.client.delete_messages(messages)
+    @super_check()
+    @commands.command(pass_context=True)
+    async def clear(self, ctx, i=2):
+        i = int(i)
+        await clear_internal(self.client, ctx.message.channel, i)
+
+    @super_check()
+    @commands.command(pass_context=True)
+    async def add(self, ctx, mention, rank):
+        for member in ctx.message.mentions:
+            r = set_user(member.id, rank)
+            if not r:
+                await self.client.say("Failed to add user!")
+                return
+            await self.client.say("Added user {}".format(member.name))
+
+    @commands.command(pass_context=True)
+    async def allstats(self, ctx):
+        members = get_all_users()
+        max_star, max_time, max_count = await get_record_holders(members)
+        text = "```ml\n"
+        text += "{:<18}{:<10}{:<10}{:<10}{:<10}\n".format("Name", "Rank", "Stars", "Count", "Time")
+        text += "{}\n".format('-' * 58)
+        for name, rank, stars, message_count, time in members:
+            member = ctx.message.server.get_member(name)
+            time = str(int(round(time / 3600))) + " hrs"
+            if name is max_star[0]:
+                stars = "{}*".format(stars)
+
+            if name is max_time[0]:
+                time = "{}*".format(time)
+
+            if name is max_count[0]:
+                message_count = "{}*".format(message_count)
+
+            if member.nick:
+                name = member.nick
+            else:
+                name = member.name
+            text += "{:<18}{:<10}{:<10}{:<10}{:<10}\n".format(name, rank, stars, message_count, time)
+        text += "```\n"
+        await self.client.say(text)
+
+    @super_check()
+    @commands.command(pass_context=True)
+    async def award_credits(self, ctx, mention):
+        for member in ctx.message.mentions:
+            set_user_stars(member.id)
+
+    @super_check()
+    @commands.command(pass_context=True)
+    async def take_credits(self, ctx, mention):
+        for member in ctx.message.mentions:
+            take_user_stars(member.id)
+
+    @commands.command(pass_context=True)
+    async def stats(self, ctx):
+        count = get_user_count(ctx.message.author.id)
+        time = get_user_time(ctx.message.author.id)
+        time = str(datetime.timedelta(seconds=time))
+        text = "```\n"
+        text += "You have posted {} time(s) and spent {} in Safe Space\n".format(count, time)
+        text += "```\n"
+        await self.client.say(text)
+
+    @super_check()
+    @commands.command(pass_context=True)
+    async def sync(self, ctx):
+        await self.client.say("Now Syncing, this may take awhile but you already know that ben you fucking idiot")
+        count = 0
+        async for x in self.client.logs_from(ctx.message.channel, limit=500000):
+            set_user_count(x.author.id)
+            count += 1
+        await self.client.say("Synced {} messages".format(count))
 
 
 def setup(client):
